@@ -1,8 +1,12 @@
 {% extends "bootstrap/base.html" %}
-{% block title %}This is an example page{% endblock %}
 
 {% block content %}
 <div class="container">
   <h1> Histsync is "a cloud bash history" app</h1>
+  <ol>
+    {% for c in commands %}
+      <li> {{c.text}} </li>
+    {% endfor %}
+  </ol>
 </div>
 {% endblock %}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.script import Manager
@@ -17,9 +17,24 @@ manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
 
+class Command(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String())
+
+
 @app.route('/')
 def index():
-    return render_template("index.html")
+    commands = Command.query
+    return render_template("index.html", commands=commands)
+
+
+@app.route('/api/v0/add_command', methods=["POST"])
+def add_command():
+    command_text = request.form["command_text"]
+    c = Command(text=command_text)
+    db.session.add(c)
+    db.session.commit()
+    return "OK"
 
 
 @manager.command

@@ -1,0 +1,9 @@
+Flask==0.10.1
+Flask-Bootstrap==3.3.2.1
+Flask-SQLAlchemy==2.0
+Jinja2==2.7.3
+MarkupSafe==0.23
+SQLAlchemy==1.0.3
+Werkzeug==0.10.4
+itsdangerous==0.24
+wsgiref==0.1.2

@@ -4,6 +4,9 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
 
+from sqlalchemy import func
+from datetime import datetime
+import humanize
 import os
 
 app = Flask(__name__)
@@ -19,7 +22,14 @@ manager.add_command('db', MigrateCommand)
 
 class Command(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    time_added = db.Column(db.DateTime, default=func.now())
     text = db.Column(db.String())
+
+    def format_time_added(self):
+        if self.time_added:
+            return humanize.naturaltime(datetime.utcnow() - self.time_added)
+        else:
+            return "[None]"
 
 
 @app.route('/')

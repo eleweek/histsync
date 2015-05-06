@@ -8,6 +8,7 @@
     <thead>
       <tr>
         <th>#</th>
+        <th>Added</th>
         <th>Command</th>
       </tr>
     </thead>
@@ -15,6 +16,7 @@
       {% for c in commands %}
       <tr>
         <th scope="row">{{loop.index}}</th>
+        <td> {{c.format_time_added()}}</td>
         <td>{{c.text}}</td>
       </tr>
       {% endfor %}

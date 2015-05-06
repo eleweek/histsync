@@ -3,10 +3,22 @@
 {% block content %}
 <div class="container">
   <h1> Histsync is "a cloud bash history" app</h1>
-  <ol>
-    {% for c in commands %}
-      <li> {{c.text}} </li>
-    {% endfor %}
-  </ol>
+    <table class="table">
+    <caption>Commands!</caption>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Command</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in commands %}
+      <tr>
+        <th scope="row">{{loop.index}}</th>
+        <td>{{c.text}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 {% endblock %}

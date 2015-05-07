@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Profile of {{username}}</h2>
+    {% if current_user.name == username %}
+      <button class="btn btn-primary" id="show-api-key">Show API Key</button>
+      <button class="btn btn-primary" id="hide-api-key" style="display: none;">Hide API Key</button>
+      <div id="api-key" style="display: none;">
+        <p><b>API key: </b>{{current_user.api_key}}</p>
+      </div>
+    {% endif %}
+    <table class="table">
+    <caption>Commands!</caption>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>User</th>
+        <th>Added</th>
+        <th>Command</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in commands %}
+      <tr>
+        <th scope="row">{{loop.index}}</th>
+        <td>{{c.user.name}}</td>
+        <td>{{c.format_time_added()}}</td>
+        <td>{{c.text}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script>
+  $( document ).ready(function() {
+    $("#show-api-key").click(function() {
+      $("#show-api-key").hide();
+      $("#hide-api-key").show();
+      $("#api-key").show();
+    });
+    $("#hide-api-key").click(function() {
+      $("#show-api-key").show();
+      $("#hide-api-key").hide();
+      $("#api-key").hide();
+    });
+  });
+</script>
+{% endblock %}

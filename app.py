@@ -73,6 +73,11 @@ class User(db.Model, UserMixin):
     github_access_token = db.Column(db.String(200))
     commands = db.relationship("Command", lazy='dynamic', backref='user')
 
+    def add_api_key_if_necessary(self):
+        if not self.api_key:
+            self.api_key = str(uuid4())
+            db.session.commit()
+
 
 @app.route('/')
 def index():
@@ -83,11 +88,15 @@ def index():
 @app.route('/profile/<username>')
 def profile(username):
     user = User.query.filter_by(name=username).first_or_404()
-    if not user.api_key:
-        user.api_key = str(uuid4())
-        db.session.commit()
+    user.add_api_key_if_necessary()
+
+    if current_user == user:
+        commands = user.commands
+    else:
+        commands = user.commands.filter_by(is_public=True)
+
     # TODO: a new template
-    return render_template("profile.html", commands=user.commands, username=username)
+    return render_template("profile.html", commands=commands, username=username)
 
 
 @app.route('/api/v0/user/<username>/add_command', methods=["POST"])

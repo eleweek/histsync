@@ -53,6 +53,7 @@ class Command(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     time_added = db.Column(db.DateTime, default=func.now())
     text = db.Column(db.String())
+    is_public = db.Column(db.Boolean(), default=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 

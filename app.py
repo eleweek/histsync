@@ -129,6 +129,21 @@ def add_command(username):
     return "OK"
 
 
+@app.route('/api/v0/user/<username>/get_commands')
+def get_commands(username):
+    api_key = request.args.get("api_key")
+    user = User.query.filter_by(name=username).first_or_404()
+
+    def convert_command(c):
+        return {"id": c.id,
+                "another_id": c.another_id,
+                "text": c.text,
+                "time_added": c.time_added,
+                "is_public": c.is_public}
+
+    return jsonify(comamnds=[convert_command(c) for c in user.get_commands(api_key != user.api_key)])
+
+
 @app.route('/authorize_callback')
 @github.authorized_handler
 def authorized(access_token):

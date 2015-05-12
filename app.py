@@ -108,7 +108,7 @@ def add_command(username):
     another_id = request.form["id"]
     user = User.query.filter_by(name=username).first_or_404()
 
-    if another_id is not None and user.commands.query.filter_by(another_id=another_id).first() is not None:
+    if another_id is not None and user.commands.filter_by(another_id=another_id).first() is not None:
         abort(400)
 
     if api_key != user.api_key:

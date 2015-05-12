@@ -51,6 +51,8 @@ def get_or_create(model, **kwargs):
 
 class Command(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+
+    another_id = db.Column(db.String())
     time_added = db.Column(db.DateTime, default=func.now())
     text = db.Column(db.String())
     is_public = db.Column(db.Boolean(), default=False)
@@ -103,10 +105,16 @@ def profile(username):
 def add_command(username):
     command_text = request.form["command_text"]
     api_key = request.form["api_key"]
+    another_id = request.form["id"]
     user = User.query.filter_by(name=username).first_or_404()
+
+    if another_id is not None and user.commands.query.filter_by(another_id=another_id).first() is not None:
+        abort(400)
+
     if api_key != user.api_key:
         abort(403)
-    c = Command(text=command_text)
+
+    c = Command(text=command_text, another_id=another_id)
     user.commands.append(c)
     db.session.add(c)
     db.session.commit()
@@ -121,7 +129,7 @@ def authorized(access_token):
         # TODO
         raise Exception("TODO: handle absent access token!")
 
-    user_json = github.get("users/eleweek", params={'access_token': access_token})
+    user_json = github.get("user".format(), params={'access_token': access_token})
     user = get_or_create(User, name=user_json["login"], email=user_json.get("email"), github_access_token=access_token)
     db.session.commit()
     login_user(user)

@@ -80,6 +80,15 @@ class User(db.Model, UserMixin):
             self.api_key = str(uuid4())
             db.session.commit()
 
+    def get_commands(self, only_public=False):
+        if not only_public:
+            commands = self.commands
+        else:
+            commands = self.commands.filter_by(is_public=True)
+
+        commands = commands.order_by(Command.time_added.desc(), Command.id.desc())
+        return commands
+
 
 @app.route('/')
 def index():
@@ -91,11 +100,7 @@ def index():
 def profile(username):
     user = User.query.filter_by(name=username).first_or_404()
     user.add_api_key_if_necessary()
-
-    if current_user == user:
-        commands = user.commands
-    else:
-        commands = user.commands.filter_by(is_public=True)
+    commands = user.get_commands(only_public=(current_user == user))
 
     # TODO: a new template
     return render_template("profile.html", commands=commands, username=username)

@@ -6,8 +6,9 @@
     {% if current_user.name == username %}
       <button class="btn btn-primary" id="show-api-key">Show API Key</button>
       <button class="btn btn-primary" id="hide-api-key" style="display: none;">Hide API Key</button>
+      <button class="btn btn-primary" id="regenerate-api-key">Generate new API Key</button>
       <div id="api-key" style="display: none;">
-        <p><b>API key: </b>{{current_user.api_key}}</p>
+        <p><b>API key: </b><span id="api-key-value">{{current_user.api_key}}</span></p>
       </div>
     {% endif %}
     <table class="table">
@@ -15,6 +16,7 @@
     <thead>
       <tr>
         <th>#</th>
+        <th>Another ID</th>
         <th>User</th>
         <th>Added</th>
         <th>Command</th>
@@ -25,6 +27,7 @@
       {% for c in commands %}
       <tr>
         <th scope="row">{{loop.index}}</th>
+        <td>{{c.another_id}}</td>
         <td>{{c.user.name}}</td>
         <td>{{c.format_time_added()}}</td>
         <td>{{c.text}}</td>
@@ -49,6 +52,11 @@
       $("#show-api-key").show();
       $("#hide-api-key").hide();
       $("#api-key").hide();
+    });
+    $("#regenerate-api-key").click(function() {
+      $.ajax("/_regenerate_api_key").done(function(data){
+        $('#api-key-value').html(data.api_key)
+      });
     });
   });
 </script>

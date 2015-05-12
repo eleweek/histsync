@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, abort
+from flask import Flask, render_template, request, redirect, url_for, abort, jsonify
 from flask_bootstrap import Bootstrap
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.script import Manager
@@ -77,8 +77,11 @@ class User(db.Model, UserMixin):
 
     def add_api_key_if_necessary(self):
         if not self.api_key:
-            self.api_key = str(uuid4())
-            db.session.commit()
+            self.generate_api_key()
+
+    def generate_api_key(self):
+        self.api_key = str(uuid4())
+        db.session.commit()
 
     def get_commands(self, only_public=False):
         if not only_public:
@@ -100,7 +103,7 @@ def index():
 def profile(username):
     user = User.query.filter_by(name=username).first_or_404()
     user.add_api_key_if_necessary()
-    commands = user.get_commands(only_public=(current_user == user))
+    commands = user.get_commands(only_public=(current_user != user))
 
     # TODO: a new template
     return render_template("profile.html", commands=commands, username=username)
@@ -150,6 +153,13 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("index"))
+
+
+@app.route('/_regenerate_api_key')
+def regenerate_api_key():
+    if current_user.is_authenticated():
+        current_user.generate_api_key()
+        return jsonify(api_key=current_user.api_key)
 
 
 @manager.command

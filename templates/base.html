@@ -19,7 +19,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
           {% if current_user.is_anonymous() %}
-            <a href="{{url_for('login')}}" class="btn navbar-btn btn-success">Login</a>
+            <a href="{{url_for('login')}}" class="btn navbar-btn btn-success">Login with GitHub</a>
           {% else %}
             <a href="{{url_for('logout')}}" class="btn navbar-btn btn-success">Logout</a>
             <a href="{{url_for('profile', username=current_user.name)}}" class="btn navbar-btn">My Profile</a>

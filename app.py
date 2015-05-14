@@ -177,6 +177,17 @@ def regenerate_api_key():
         return jsonify(api_key=current_user.api_key)
 
 
+@app.route('/_delete_command/<int:id>', methods=["POST"])
+def delete_commannd(id):
+    c = Command.query.get_or_404(id)
+    if current_user.is_anonymous() or current_user != c.user:
+        abort(403)
+
+    db.session.delete(c)
+    db.session.commit()
+    return jsonify(result="OK")
+
+
 @manager.command
 def run():
     app.run(debug=True)

@@ -3,7 +3,21 @@
 {% block content %}
   <div class="container">
     {% for c in commands %}
-      <pre class="code"> $&nbsp; {{- c.text -}} </pre>
+
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h5 class="panel-title">Shared by <a href={{url_for("profile", username=c.user.name)}}>{{c.user.name}}</a>
+            <button class="btn btn-default btn-xs" type="button">
+              Star <span class="badge">42</span>
+            </button>
+          </h5>
+        </div>
+        <div class="panel-body">
+          <pre class="code"> $&nbsp; {{- c.text -}} </pre>
+        </div>
+        <div class="panel-footer">42 Comments</div>
+      </div>
     {% endfor %}
   </div>
 {% endblock %}

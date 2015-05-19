@@ -9,7 +9,7 @@
       <button class="btn btn-primary" id="regenerate-api-key">Generate new API Key</button>
       <div id="api-key" style="display: none;">
         <p><b>API key: </b><span id="api-key-value">{{current_user.api_key}}</span></p>
-        <p><b>Command to add to your .bashrc :</b> export PROMPT_COMMAND='histsync-client.py  --api_key {{current_user.api_key}} --user {{current_user.name}}  "`history 1`"'</p>
+        <p><b>Command to add to your .bashrc :</b> ~/histsync-client.py  --api_key {{current_user.api_key}} --user {{current_user.name}}  "$1"'</p>
       </div>
     {% endif %}
     <table class="table">

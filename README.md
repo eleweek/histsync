@@ -33,3 +33,7 @@ So something like zsh's preexec() hook is necessary (or maybe it is possible to 
 ### FAQ PAGE
 
 ### Easy install script
+
+### Easy standalone app 
+
+Make it easy to deploy your own standalone installation, probably using something like "Deploy to heroku" button

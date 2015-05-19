@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container">
+    {% for c in commands %}
+      <pre class="code"> $&nbsp; {{- c.text -}} </pre>
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{% block styles %}
+  {{ super() }}
+  <style>
+    pre.code{
+      background-color: rgba(13, 15, 21, 1);
+      color: #EFF7FF;
+      padding: 5px 10px;
+      font-family: monospaced, monaco;
+      border-radius: 10px;
+    }
+  </style>
+{% endblock %}

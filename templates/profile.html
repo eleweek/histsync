@@ -22,6 +22,7 @@
         <th>Added</th>
         <th>Command</th>
         <th>Is Public?</th>
+        <th>Is Starred by current_user?</th>
         <th>Controls</th>
       </tr>
     </thead>
@@ -34,9 +35,13 @@
         <td>{{c.format_time_added()}}</td>
         <td>{{c.text}}</td>
         <td>{{c.is_public}}</td>
+        <td>{{c in current_user_starred_commands}}</td>
         <td>
           <button type="button" class="btn btn-default btn-sm btn-remove-command" data-command-id="{{c.id}}">
             <span class="glyphicon glyphicon-remove"></span>
+          </button>
+          <button type="button" class="btn btn-default btn-sm btn-star-command" data-command-id="{{c.id}}">
+            <span class="glyphicon glyphicon-star"></span>
           </button>
         </td>
       </tr>
@@ -74,6 +79,11 @@
       }).fail(function() {
         $(that).show();
       });
+    });
+    $(".btn-star-command").click(function() {
+      var command_id = $(this).data('command-id');
+      var that = this;
+      $.post("/_star_command/" + command_id); // TODO: handling success/failure
     });
   });
 </script>

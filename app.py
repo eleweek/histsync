@@ -49,6 +49,12 @@ def get_or_create(model, **kwargs):
     return instance
 
 
+stars_users = db.Table('stars_users',
+                       db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+                       db.Column('command_id', db.Integer, db.ForeignKey('command.id'))
+                       )
+
+
 class Command(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
@@ -74,6 +80,8 @@ class User(db.Model, UserMixin):
 
     github_access_token = db.Column(db.String(200))
     commands = db.relationship("Command", lazy='dynamic', backref='user')
+    starred_commands = db.relationship('Command', secondary=stars_users, lazy='dynamic',
+                                       backref=db.backref('starred_by', lazy='dynamic'))
 
     def add_api_key_if_necessary(self):
         if not self.api_key:
@@ -99,14 +107,21 @@ def index():
     return render_template("index.html", commands=commands)
 
 
+@app.route('/public_commands')
+def public_commands():
+    commands = Command.query.filter_by(is_public=True)
+    return render_template("public_commands.html", commands=commands)
+
+
 @app.route('/profile/<username>')
 def profile(username):
     user = User.query.filter_by(name=username).first_or_404()
     user.add_api_key_if_necessary()
     commands = user.get_commands(only_public=(current_user != user))
+    current_user_starred_commands = current_user.starred_commands.all()
 
     # TODO: a new template
-    return render_template("profile.html", commands=commands, username=username)
+    return render_template("profile.html", commands=commands, username=username, current_user_starred_commands=current_user_starred_commands)
 
 
 @app.route('/api/v0/user/<username>/add_command', methods=["POST"])
@@ -178,13 +193,22 @@ def regenerate_api_key():
 
 
 @app.route('/_delete_command/<int:id>', methods=["POST"])
-def delete_commannd(id):
+def delete_command(id):
     c = Command.query.get_or_404(id)
     if current_user.is_anonymous() or current_user != c.user:
         abort(403)
 
     db.session.delete(c)
     db.session.commit()
+    return jsonify(result="OK")
+
+
+@app.route('/_star_command/<int:id>', methods=["POST"])
+def _star_command(id):
+    c = Command.query.get_or_404(id)
+    current_user.starred_commands.append(c)
+    db.session.commit()
+
     return jsonify(result="OK")
 
 

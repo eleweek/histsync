@@ -61,7 +61,9 @@ class Command(db.Model):
     another_id = db.Column(db.String())
     time_added = db.Column(db.DateTime, default=func.now())
     text = db.Column(db.String())
+
     is_public = db.Column(db.Boolean(), default=False)
+    time_shared = db.Column(db.DateTime, default=func.now())
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
@@ -109,7 +111,7 @@ def index():
 
 @app.route('/public_commands')
 def public_commands():
-    commands = Command.query.filter_by(is_public=True)
+    commands = Command.query.filter_by(is_public=True).order_by(Command.time_shared.desc())
     return render_template("public_commands.html", commands=commands)
 
 

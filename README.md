@@ -24,3 +24,12 @@ Remove stubs, make buttons actually do something
 
 Nice workflow for adding commands to public list
 
+### Better client
+
+The client shouldn't send the previous command on startup
+
+So something like zsh's preexec() hook is necessary (or maybe it is possible to detect is $PROMPT_COMMAND is executed after startup)
+
+### FAQ PAGE
+
+### Easy install script

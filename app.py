@@ -130,7 +130,7 @@ def profile(username):
 def add_command(username):
     command_text = request.form["command_text"]
     api_key = request.form["api_key"]
-    another_id = request.form["id"]
+    another_id = request.form.get("id")
     user = User.query.filter_by(name=username).first_or_404()
 
     if another_id is not None and user.commands.filter_by(another_id=another_id).first() is not None:

@@ -28,7 +28,7 @@ Nice workflow for adding commands to public list
 
 The client shouldn't send the previous command on startup
 
-So something like zsh's preexec() hook is necessary (or maybe it is possible to detect is $PROMPT_COMMAND is executed after startup)
+So something like zsh's preexec() hook is necessary (or maybe it is possible to detect if $PROMPT_COMMAND is executed after startup)
 
 ### FAQ PAGE
 

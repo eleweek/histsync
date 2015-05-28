@@ -18,14 +18,11 @@
         </div>
       </div>
     {% endif %}
-    {# TODO: enable switching between compact and non-compact version #}
-    <div class="row commands-row">
+    <h3> Shared commands </h3>
+    <div class="row">
       <div class="col-xs-12">
         {% for c in commands %}
-          <div class="command-compact command-compact-{{c.id}}" data-command-id="{{c.id}}">
-            <pre class="code compact"> $&nbsp; {{- c.text -}} </pre>
-          </div>
-          <div class="command-controls command-controls-{{c.id}}" style="display:none;"> {{ macros.command_controls(c, true, true, true) }} </div>
+          {{ macros.command(c, true, true, true) }}
         {% endfor %}
       </div>
     </div>
@@ -34,44 +31,7 @@
 
 {% block scripts %}
 {{super()}}
-<script>
-  $( document ).ready(function() {
-    $("#show-api-key").click(function() {
-      $("#show-api-key").hide();
-      $("#hide-api-key").show();
-      $("#api-key").show();
-    });
-    $("#hide-api-key").click(function() {
-      $("#show-api-key").show();
-      $("#hide-api-key").hide();
-      $("#api-key").hide();
-    });
-    $("#regenerate-api-key").click(function() {
-      $.ajax("/_regenerate_api_key").done(function(data){
-        $('#api-key-value').html(data.api_key)
-      });
-    });
-    $(".btn-remove-command").click(function() {
-      var command_id = $(this).data('command-id');
-      var that = this;
-      $(that).hide();
-      $.post("/_delete_command/" + command_id).done(function(done){
-        $("#command-row-" + command_id).remove();
-      }).fail(function() {
-        $(that).show();
-      });
-    });
-    $(".btn-star-command").click(function() {
-      var command_id = $(this).data('command-id');
-      var that = this;
-      $.post("/_star_command/" + command_id); // TODO: handling success/failure
-    });
-    $(".command-compact").click(function() {
-      var command_id = $(this).data('command-id');
-      $(".command-controls-" + command_id).toggle();
-    });
-  });
-</script>
+  <script src={{url_for("static", filename="ui.js")}}></script>
 {% endblock %}
 
 {% block styles %}

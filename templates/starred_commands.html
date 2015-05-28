@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% import 'macros.html' as macros %}
+
+{% block content %}
+<div class="container">
+    <h3> My starred commands </h3>
+    <div class="row">
+      <div class="col-xs-12">
+        {% for c in commands %}
+          {{ macros.command(c, true, true, true) }}
+        {% endfor %}
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+  <script src={{url_for("static", filename="ui.js")}}></script>
+{% endblock %}
+
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='base.css')}}"></style>
+{% endblock %}

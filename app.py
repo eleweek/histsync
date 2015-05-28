@@ -4,7 +4,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.github import GitHub
-from flask.ext.login import LoginManager, login_user, logout_user, current_user, UserMixin
+from flask.ext.login import LoginManager, login_user, logout_user, current_user, UserMixin, login_required
 
 from sqlalchemy import func
 from datetime import datetime
@@ -102,6 +102,13 @@ class User(db.Model, UserMixin):
         commands = commands.order_by(Command.time_added.desc(), Command.id.desc())
         return commands
 
+    def get_starred_commands(self):
+        commands = Command.query\
+                          .filter(Command.starred_by.any(Command.user == self))\
+                          .order_by(Command.time_added.desc(), Command.id.desc())
+
+        return commands
+
 
 @app.route('/')
 def index():
@@ -119,11 +126,23 @@ def public_commands():
 def profile(username):
     user = User.query.filter_by(name=username).first_or_404()
     user.add_api_key_if_necessary()
-    commands = user.get_commands(only_public=(current_user != user))
-    current_user_starred_commands = current_user.starred_commands.all()
+    commands = current_user.get_commands(only_public=True)
 
     # TODO: a new template
-    return render_template("profile.html", commands=commands, username=username, current_user_starred_commands=current_user_starred_commands)
+    return render_template("profile.html", commands=commands, username=username)
+
+
+@app.route('/my_shell_history')
+@login_required
+def my_shell_history():
+    commands = current_user.get_commands(only_public=False)
+    return render_template("shell_history.html", commands=commands)
+
+
+@app.route('/my_starred_commands')
+def my_starred_commands():
+    commands = current_user.get_starred_commands()
+    return render_template("starred_commands.html", commands=commands)
 
 
 @app.route('/api/v0/user/<username>/add_command', methods=["POST"])

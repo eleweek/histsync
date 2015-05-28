@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% import 'macros.html' as macros %}
+
+{% block content %}
+<div class="container">
+    <h2>My Shell History</h2>
+    {# TODO: enable switching between compact and non-compact version #}
+    <div class="row commands-row">
+      <div class="col-xs-12">
+        {% for c in commands %}
+          <div class="command-compact command-compact-{{c.id}}" data-command-id="{{c.id}}">
+            <pre class="code compact"> $&nbsp; {{- c.text -}} </pre>
+          </div>
+          <div class="command-controls command-controls-{{c.id}}" style="display:none;"> {{ macros.command_controls(c, true, true, true) }} </div>
+        {% endfor %}
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+  <script src={{url_for("static", filename="ui.js")}}></script>
+{% endblock %}
+
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='base.css')}}"></style>
+{% endblock %}

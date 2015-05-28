@@ -25,7 +25,7 @@
           <div class="command-compact command-compact-{{c.id}}" data-command-id="{{c.id}}">
             <pre class="code compact"> $&nbsp; {{- c.text -}} </pre>
           </div>
-          <div class="command-controls command-controls-{{c.id}}" style="display:none;"> {{ macros.command_controls(c) }} </div>
+          <div class="command-controls command-controls-{{c.id}}" style="display:none;"> {{ macros.command_controls(c, true, true, true) }} </div>
         {% endfor %}
       </div>
     </div>

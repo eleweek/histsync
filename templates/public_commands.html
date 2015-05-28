@@ -5,7 +5,7 @@
 {% block content %}
   <div class="container">
     {% for c in commands %}
-      {{ macros.command(c) }}
+      {{ macros.command(c, true, true, true) }}
     {% endfor %}
   </div>
 {% endblock %}

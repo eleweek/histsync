@@ -1,0 +1,25 @@
+{% macro command_controls(command, with_star, with_publish, with_unpublish) %}
+  <button class="btn btn-default btn-xs btn-star-command" type="button" {% if with_star %} style="visibility:none;" {% endif %}>
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Star <span class="badge">42</span>
+  </button>
+  <button class="btn btn-default btn-xs btn-publish" type="button" {% if with_publish %} style="visibility:none;" {% endif %}>
+    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> Publish
+  </button>
+  <button class="btn btn-default btn-xs btn-unpublish" type="button" {% if with_unpublish %} style="visibility:none;" {% endif %}>
+    <span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span> Unpublish
+  </button>
+{% endmacro %} 
+
+{% macro command(command, with_star, with_publish, with_unpublish) %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h5 class="panel-title">Shared by <a href={{url_for("profile", username=command.user.name)}}>{{command.user.name}}</a>
+        {{ command_controls(command) }}
+      </h5>
+    </div>
+    <div class="panel-body">
+      <pre class="code"> $&nbsp; {{- command.text -}} </pre>
+    </div>
+    <div class="panel-footer">42 Comments</div>
+  </div>
+{% endmacro %}

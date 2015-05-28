@@ -21,8 +21,8 @@
           {% if current_user.is_anonymous() %}
             <a href="{{url_for('login')}}" class="btn navbar-btn btn-success">Login with GitHub</a>
           {% else %}
-            <a href="{{url_for('my_shell_history', username=current_user.name)}}" class="btn navbar-btn">My Shell History</a>
-            <a href="{{url_for('my_starred_commands', username=current_user.name)}}" class="btn navbar-btn">My Starred commands</a>
+            <a href="{{url_for('my_shell_history')}}" class="btn navbar-btn">My Shell History</a>
+            <a href="{{url_for('my_starred_commands')}}" class="btn navbar-btn">My Starred commands</a>
             <a href="{{url_for('profile', username=current_user.name)}}" class="btn navbar-btn">My Profile</a>
           {% endif %}
           <a href="{{url_for('public_commands')}}" class="btn navbar-btn">Discover commands</a>
@@ -39,4 +39,10 @@
 {% block scripts %}
 {{ super() }}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+  <script src={{url_for("static", filename="ui.js")}}></script>
+{% endblock %}
+
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='base.css')}}"></style>
 {% endblock %}

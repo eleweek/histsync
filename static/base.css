@@ -1,0 +1,27 @@
+pre.code{
+  background-color: rgba(13, 15, 21, 1);
+  color: #EFF7FF;
+  padding: 5px 10px;
+  font-family: monospaced, monaco;
+  border-radius: 10px;
+}
+
+pre.code.compact{
+  background-color: rgba(13, 15, 21, 1);
+  color: #EFF7FF;
+  padding: 5px 10px;
+  border: 0px;
+  margin: 0px 0px;
+  font-family: monospaced, monaco;
+  border-radius: 0px;
+}
+
+.command-controls {
+  padding-top: 3px;
+  padding-left: 20px;
+  padding-bottom: 20px;
+}
+
+.commands-row {
+  margin-top: 30px;
+}

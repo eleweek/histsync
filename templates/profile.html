@@ -1,53 +1,34 @@
 {% extends "base.html" %}
 
+{% import 'macros.html' as macros %}
+
 {% block content %}
 <div class="container">
     <h2>Profile of {{username}}</h2>
     {% if current_user.name == username %}
-      <button class="btn btn-primary" id="show-api-key">Show API Key</button>
-      <button class="btn btn-primary" id="hide-api-key" style="display: none;">Hide API Key</button>
-      <button class="btn btn-primary" id="regenerate-api-key">Generate new API Key</button>
-      <div id="api-key" style="display: none;">
-        <p><b>API key: </b><span id="api-key-value">{{current_user.api_key}}</span></p>
-        <p><b>Command to add to your .bashrc :</b> ~/histsync-client.py  --api_key {{current_user.api_key}} --user {{current_user.name}}  "$1"'</p>
+      <div class="row">
+        <div class="col-xs-12">
+          <button class="btn btn-primary" id="show-api-key">Show API Key</button>
+          <button class="btn btn-primary" id="hide-api-key" style="display: none;">Hide API Key</button>
+          <button class="btn btn-primary" id="regenerate-api-key">Generate new API Key</button>
+          <div id="api-key" style="display: none;">
+            <p><b>API key: </b><span id="api-key-value">{{current_user.api_key}}</span></p>
+            {# <p><b>Command to add to your .bashrc :</b> ~/histsync-client.py  --api_key {{current_user.api_key}} --user {{current_user.name}}  "$1"'</p> #}
+          </div>
+        </div>
       </div>
     {% endif %}
-    <table class="table">
-    <caption>Commands!</caption>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Another ID</th>
-        <th>User</th>
-        <th>Added</th>
-        <th>Command</th>
-        <th>Is Public?</th>
-        <th>Is Starred by current_user?</th>
-        <th>Controls</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for c in commands %}
-      <tr id="command-row-{{c.id}}">
-        <th scope="row">{{loop.index}}</th>
-        <td>{{c.another_id}}</td>
-        <td>{{c.user.name}}</td>
-        <td>{{c.format_time_added()}}</td>
-        <td>{{c.text}}</td>
-        <td>{{c.is_public}}</td>
-        <td>{{c in current_user_starred_commands}}</td>
-        <td>
-          <button type="button" class="btn btn-default btn-sm btn-remove-command" data-command-id="{{c.id}}">
-            <span class="glyphicon glyphicon-remove"></span>
-          </button>
-          <button type="button" class="btn btn-default btn-sm btn-star-command" data-command-id="{{c.id}}">
-            <span class="glyphicon glyphicon-star"></span>
-          </button>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    {# TODO: enable switching between compact and non-compact version #}
+    <div class="row commands-row">
+      <div class="col-xs-12">
+        {% for c in commands %}
+          <div class="command-compact command-compact-{{c.id}}" data-command-id="{{c.id}}">
+            <pre class="code compact"> $&nbsp; {{- c.text -}} </pre>
+            <div class="command-controls command-controls-{{c.id}}" style="display:none;"> {{ macros.command_controls(c) }} </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
 </div>
 {% endblock %}
 
@@ -85,6 +66,15 @@
       var that = this;
       $.post("/_star_command/" + command_id); // TODO: handling success/failure
     });
+    $(".command-compact").click(function() {
+      var command_id = $(this).data('command-id');
+      $(".command-controls-" + command_id).toggle();
+    });
   });
 </script>
+{% endblock %}
+
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='base.css')}}"></style>
 {% endblock %}

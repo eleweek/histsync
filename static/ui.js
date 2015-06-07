@@ -42,9 +42,13 @@ $( document ).ready(function() {
         var command_id = $(this).data('command-id');
         var that = this;
         $.post("/_publish_command/" + command_id).done(function(done){
-            $(that).hide();
-            $(".btn-unpublish-command-" + command_id).show();
-            $.notify("Succesfully published the command!");
+            bootbox.confirm("Are you sure to publish the command?", function(result) {
+                if (result) {
+                    $(that).hide();
+                    $(".btn-unpublish-command-" + command_id).show();
+                    $.notify("Succesfully published the command!");
+                }
+            });
         }).fail(function() {
             $(that).show();
             $.notify("Failed to publish the command!");
@@ -54,13 +58,17 @@ $( document ).ready(function() {
     $(".btn-unpublish-command").click(function() {
         var command_id = $(this).data('command-id');
         var that = this;
-        $.post("/_unpublish_command/" + command_id).done(function(done){
-            $(that).hide();
-            $(".btn-publish-command-" + command_id).show();
-            $.notify("Succesfully made the command private!");
-        }).fail(function() {
-            $(that).show();
-            $.notify("Failed make the command private!");
+        bootbox.confirm("Are you sure to unpublish the command?", function(result) {
+            if (result) {
+                $.post("/_unpublish_command/" + command_id).done(function(done){
+                    $(that).hide();
+                    $(".btn-publish-command-" + command_id).show();
+                    $.notify("Succesfully made the command private!");
+                }).fail(function() {
+                    $(that).show();
+                    $.notify("Failed make the command private!");
+                });
+            }
         });
     });
 

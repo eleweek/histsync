@@ -21,11 +21,11 @@
           {% if current_user.is_anonymous() %}
             <a href="{{url_for('login')}}" class="btn navbar-btn btn-success">Login with GitHub</a>
           {% else %}
-            <a href="{{url_for('my_shell_history')}}" class="btn navbar-btn">My Shell History</a>
-            <a href="{{url_for('my_starred_commands')}}" class="btn navbar-btn">My Starred commands</a>
-            <a href="{{url_for('profile', username=current_user.name)}}" class="btn navbar-btn">My Profile</a>
+            <a href="{{url_for('my_shell_history')}}" class="btn navbar-btn">History</a>
+            <a href="{{url_for('my_starred_commands')}}" class="btn navbar-btn">Starred</a>
+            <a href="{{url_for('profile', username=current_user.name)}}" class="btn navbar-btn">Profile</a>
           {% endif %}
-          <a href="{{url_for('public_commands')}}" class="btn navbar-btn">Discover commands</a>
+          <a href="{{url_for('public_commands')}}" class="btn btn-primary navbar-btn">Discover commands</a>
           {% if current_user.is_authenticated() %}
             <a href="{{url_for('logout')}}" class="btn navbar-btn btn-success">Logout</a>
           {% endif %}

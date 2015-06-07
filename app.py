@@ -22,6 +22,13 @@ Bootstrap(app)
 github = GitHub(app)
 
 
+def url_for_other_page(page):
+    args = request.view_args.copy()
+    args['page'] = page
+    return url_for(request.endpoint, **args)
+app.jinja_env.globals['url_for_other_page'] = url_for_other_page
+
+
 @github.access_token_getter
 def token_getter():
     if current_user.is_authenticated():
@@ -133,10 +140,11 @@ def profile(username):
     return render_template("profile.html", commands=commands, username=username)
 
 
-@app.route('/my_shell_history')
+@app.route('/my_shell_history', defaults={"page": 1})
+@app.route('/my_shell_history/page/<int:page>')
 @login_required
-def my_shell_history():
-    commands = current_user.get_commands(only_public=False)
+def my_shell_history(page):
+    commands = current_user.get_commands(only_public=False).paginate(per_page=100, page=page)
     return render_template("shell_history.html", commands=commands)
 
 

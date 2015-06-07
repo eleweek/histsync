@@ -5,10 +5,10 @@
 {% block content %}
 <div class="container">
     <h2>My Shell History</h2>
-    {# TODO: enable switching between compact and non-compact version #}
+    {{ macros.render_pagination(commands) }}
     <div class="row commands-row">
       <div class="col-xs-12">
-        {% for c in commands %}
+        {% for c in commands.items %}
         <div id="command-row-{{c.id}}" class="command-row command-row-{{c.id}}">
             <div class="command-compact command-compact-{{c.id}}" data-command-id="{{c.id}}">
               <pre class="code compact"> $&nbsp; {{- c.text -}} </pre>
@@ -23,5 +23,6 @@
         {% endfor %}
       </div>
     </div>
+    {{ macros.render_pagination(commands) }}
 </div>
 {% endblock %}

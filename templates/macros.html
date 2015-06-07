@@ -6,7 +6,7 @@
     <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Unstar <span class="badge stars-number">{{stars_number}}</span>
   </button>
   {% if is_owner %}
-    <button class="btn btn-default btn-xs btn-publish-command btn-publish-command-{{command.id}}"" data-command-id="{{command.id}}" type="button" {% if published %} style="display:none;" {% endif %}>
+    <button class="btn btn-default btn-xs btn-publish-command btn-publish-command-{{command.id}}" data-command-id="{{command.id}}" type="button" {% if published %} style="display:none;" {% endif %}>
       <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> Publish
     </button>
     <button class="btn btn-default btn-xs btn-unpublish-command btn-unpublish-command-{{command.id}}" data-command-id="{{command.id}}" type="button" {% if not published %} style="display:none;" {% endif %}>
@@ -18,12 +18,12 @@
   {% endif %}
 {% endmacro %} 
 
-{% macro command(command, with_star, with_publish, with_unpublish) %}
+{% macro command(command) %}
   <div class="panel panel-default">
     <div class="panel-heading">
       <h5 class="panel-title">{% if command.is_public %} Shared by <a href={{url_for("profile", username=command.user.name)}}>{{command.user.name}}</a> {% else %} Private command {% endif %}
         {{ command_controls(command,
-                            true, 43,
+                            command in current_user.starred_commands, command.starred_by | length,
                             current_user.is_authenticated() and command.user == current_user,
                             command.is_public) }}
       </h5>
@@ -33,4 +33,12 @@
     </div>
     <div class="panel-footer">42 Comments</div>
   </div>
+{% endmacro %}
+
+{% macro command_list(commands) %}
+  {% for c in commands %}
+    <div id="command-row-{{c.id}}" class="command-row command-row-{{c.id}}">
+      {{ command(c) }}
+    </div>
+  {% endfor %}
 {% endmacro %}

@@ -5,12 +5,6 @@
 {% block content %}
 <div class="container">
     <h3> My starred commands </h3>
-    <div class="row">
-      <div class="col-xs-12">
-        {% for c in commands %}
-          {{ macros.command(c, true, true, true) }}
-        {% endfor %}
-      </div>
-    </div>
+    {{ macros.command_list(commands) }}
 </div>
 {% endblock %}

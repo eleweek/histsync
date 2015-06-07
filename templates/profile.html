@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% import 'macros.html' as macros %}
+{% import 'macros.html' as macros with context %}
 
 {% block content %}
 <div class="container">
@@ -19,12 +19,6 @@
       </div>
     {% endif %}
     <h3> Shared commands </h3>
-    <div class="row">
-      <div class="col-xs-12">
-        {% for c in commands %}
-          {{ macros.command(c, true, true, true) }}
-        {% endfor %}
-      </div>
-    </div>
+    {{ macros.command_list(commands) }}
 </div>
 {% endblock %}

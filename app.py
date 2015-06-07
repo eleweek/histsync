@@ -234,6 +234,33 @@ def _star_command(id):
     return jsonify(result="OK")
 
 
+@app.route('/_unstar_command/<int:id>', methods=["POST"])
+def _unstar_command(id):
+    c = Command.query.get_or_404(id)
+    current_user.remove(c)
+    db.session.commit()
+
+    return jsonify(result="OK")
+
+
+@app.route('/_publish_command/<int:id>', methods=["POST"])
+def _publish_command(id):
+    c = Command.query.get_or_404(id)
+    c.is_public = True
+    db.session.commit()
+
+    return jsonify(result="OK")
+
+
+@app.route('/_unpublish_command/<int:id>', methods=["POST"])
+def _unpublish_command(id):
+    c = Command.query.get_or_404(id)
+    c.is_public = False
+    db.session.commit()
+
+    return jsonify(result="OK")
+
+
 @manager.command
 def run():
     app.run(debug=True)

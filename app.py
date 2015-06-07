@@ -49,6 +49,7 @@ def get_or_create(model, **kwargs):
     return instance
 
 
+# TODO: duplicates: http://stackoverflow.com/questions/16035043/how-to-avoid-adding-duplicates-in-a-many-to-many-relationship-table-in-sqlalchem
 stars_users = db.Table('stars_users',
                        db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
                        db.Column('command_id', db.Integer, db.ForeignKey('command.id'))

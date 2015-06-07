@@ -14,14 +14,16 @@ $( document ).ready(function() {
             $('#api-key-value').html(data.api_key)
         });
     });
-    $(".btn-remove-command").click(function() {
+    $(".btn-delete").click(function() {
         var command_id = $(this).data('command-id');
         var that = this;
         $(that).hide();
         $.post("/_delete_command/" + command_id).done(function(done){
             $("#command-row-" + command_id).remove();
+            $.notify("Succesfully removed the command!");
         }).fail(function() {
             $(that).show();
+            $.notify("Failed to remove the command!");
         });
     });
     $(".btn-star-command").click(function() {

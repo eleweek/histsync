@@ -38,8 +38,9 @@
 
 {% block scripts %}
 {{ super() }}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
   <script src={{url_for("static", filename="ui.js")}}></script>
+  <script src={{url_for("static", filename="bootstrap-notify.min.js")}}></script>
 {% endblock %}
 
 {% block styles %}

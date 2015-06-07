@@ -75,6 +75,11 @@ $( document ).ready(function() {
     $(".command-compact").click(function() {
         var command_id = $(this).data('command-id');
         $(".command-controls-" + command_id).toggle();
-        $(".command-row-" + command_id).addClass('command-row-clicked');
+        var row = $(".command-row-" + command_id);
+        if (row.hasClass('command-row-clicked')) {
+            row.removeClass('command-row-clicked');
+        } else {
+            row.addClass('command-row-clicked');
+        }
     });
 });

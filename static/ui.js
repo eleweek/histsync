@@ -46,6 +46,8 @@ $( document ).ready(function() {
                 if (result) {
                     $(that).hide();
                     $(".btn-unpublish-command-" + command_id).show();
+                    $(".public-title-" + command_id).show();
+                    $(".private-title-" + command_id).hide();
                     $.notify("Succesfully published the command!");
                 }
             });
@@ -63,6 +65,8 @@ $( document ).ready(function() {
                 $.post("/_unpublish_command/" + command_id).done(function(done){
                     $(that).hide();
                     $(".btn-publish-command-" + command_id).show();
+                    $(".public-title-" + command_id).hide();
+                    $(".private-title-" + command_id).show();
                     $.notify("Succesfully made the command private!");
                 }).fail(function() {
                     $(that).show();

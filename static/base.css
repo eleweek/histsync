@@ -25,3 +25,7 @@ pre.code.compact{
 .commands-row {
   margin-top: 30px;
 }
+
+div.command-row.command-row-clicked {
+  padding-top: 20px;
+}

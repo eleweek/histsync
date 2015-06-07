@@ -9,13 +9,13 @@
     <div class="row commands-row">
       <div class="col-xs-12">
         {% for c in commands %}
-          <div id="command-row-{{c.id}}">
+        <div id="command-row-{{c.id}}" class="command-row command-row-{{c.id}}">
             <div class="command-compact command-compact-{{c.id}}" data-command-id="{{c.id}}">
               <pre class="code compact"> $&nbsp; {{- c.text -}} </pre>
             </div>
             <div class="command-controls command-controls-{{c.id}}" style="display:none;">
               {{ macros.command_controls(c,
-                                         true, 43,
+                                         c in current_user.starred_commands, 43,
                                          current_user.is_authenticated() and c.user == current_user,
                                          c.is_public) }}
             </div>

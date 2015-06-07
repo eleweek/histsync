@@ -11,10 +11,10 @@ $( document ).ready(function() {
     });
     $("#regenerate-api-key").click(function() {
         $.ajax("/_regenerate_api_key").done(function(data){
-            $('#api-key-value').html(data.api_key)
+            $('#api-key-value').html(data.api_key);
         });
     });
-    $(".btn-delete").click(function() {
+    $(".btn-delete-command").click(function() {
         var command_id = $(this).data('command-id');
         var that = this;
         $(that).hide();
@@ -29,10 +29,18 @@ $( document ).ready(function() {
     $(".btn-star-command").click(function() {
         var command_id = $(this).data('command-id');
         var that = this;
-        $.post("/_star_command/" + command_id); // TODO: handling success/failure
+        $.post("/_star_command/" + command_id).done(function(done){
+            $(that).hide();
+            $(".btn-unstar-command-" + command_id).show();
+            $.notify("Succesfully starred the command!");
+        }).fail(function() {
+            $(that).show();
+            $.notify("Failed to star the command!");
+        });
     });
     $(".command-compact").click(function() {
         var command_id = $(this).data('command-id');
         $(".command-controls-" + command_id).toggle();
+        $(".command-row-" + command_id).addClass('command-row-clicked');
     });
 });

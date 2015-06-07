@@ -83,8 +83,8 @@ class User(db.Model, UserMixin):
 
     github_access_token = db.Column(db.String(200))
     commands = db.relationship("Command", lazy='dynamic', backref='user')
-    starred_commands = db.relationship('Command', secondary=stars_users, lazy='dynamic',
-                                       backref=db.backref('starred_by', lazy='dynamic'))
+    starred_commands = db.relationship('Command', secondary=stars_users, lazy='joined',
+                                       backref=db.backref('starred_by', lazy='joined'))
 
     def add_api_key_if_necessary(self):
         if not self.api_key:

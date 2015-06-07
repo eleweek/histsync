@@ -1,18 +1,18 @@
 {% macro command_controls(command, starred, stars_number, is_owner, published) %}
-  <button class="btn btn-default btn-xs btn-star-command" data-command-id="{{command.id}}" type="button" {% if not starred %} style="display:none;" {% endif %}>
+  <button class="btn btn-default btn-xs btn-star-command btn-star-command-{{command.id}}" data-command-id="{{command.id}}" type="button" {% if starred %} style="display:none;" {% endif %}>
     <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Star <span class="badge stars-number">{{stars_number}}</span>
   </button>
-  <button class="btn btn-default btn-xs btn-star-command" data-command-id="{{command.id}}" type="button" {% if starred %} style="display:none;" {% endif %}>
+  <button class="btn btn-default btn-xs btn-unstar-command btn-unstar-command-{{command.id}}" data-command-id="{{command.id}}" type="button" {% if not starred %} style="display:none;" {% endif %}>
     <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Unstar <span class="badge stars-number">{{stars_number}}</span>
   </button>
   {% if is_owner %}
-    <button class="btn btn-default btn-xs btn-publish" data-command-id="{{command.id}}" type="button" {% if published %} style="display:none;" {% endif %}>
+    <button class="btn btn-default btn-xs btn-publish-command btn-publish-command-{{command.id}}"" data-command-id="{{command.id}}" type="button" {% if published %} style="display:none;" {% endif %}>
       <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> Publish
     </button>
-    <button class="btn btn-default btn-xs btn-unpublish" data-command-id="{{command.id}}" type="button" {% if not published %} style="display:none;" {% endif %}>
+    <button class="btn btn-default btn-xs btn-unpublish-command btn-unpublish-command-{{command.id}}" data-command-id="{{command.id}}" type="button" {% if not published %} style="display:none;" {% endif %}>
       <span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span> Unpublish
     </button>
-    <button class="btn btn-default btn-xs btn-delete" data-command-id="{{command.id}}" type="button">
+    <button class="btn btn-default btn-xs btn-delete-command btn-delete-command-{{command.id}}" data-command-id="{{command.id}}" type="button">
       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete
     </button>
   {% endif %}
@@ -21,7 +21,7 @@
 {% macro command(command, with_star, with_publish, with_unpublish) %}
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h5 class="panel-title">Shared by <a href={{url_for("profile", username=command.user.name)}}>{{command.user.name}}</a>
+      <h5 class="panel-title">{% if command.is_public %} Shared by <a href={{url_for("profile", username=command.user.name)}}>{{command.user.name}}</a> {% else %} Private command {% endif %}
         {{ command_controls(command,
                             true, 43,
                             current_user.is_authenticated() and command.user == current_user,

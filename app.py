@@ -6,12 +6,21 @@ from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.github import GitHub
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, UserMixin, login_required
 
+from flask_restful import Resource, Api, reqparse
+from flask_restful import fields, marshal_with
+from flask_restful import abort as fr_abort
+
 from sqlalchemy import func
 from datetime import datetime
 import humanize
 import os
 from uuid import uuid4
 
+api_key_parser = reqparse.RequestParser()
+api_key_parser.add_argument('api_key')
+
+add_command_parser = api_key_parser.copy()
+add_command_parser.add_argument('command')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
@@ -20,6 +29,7 @@ app.config['GITHUB_CLIENT_SECRET'] = os.environ['GITHUB_APP_SECRET']
 app.config['GITHUB_CLIENT_ID'] = os.environ['GITHUB_APP_ID']
 Bootstrap(app)
 github = GitHub(app)
+api = Api(app)
 
 
 def url_for_other_page(page):
@@ -154,39 +164,51 @@ def my_starred_commands():
     return render_template("starred_commands.html", commands=commands)
 
 
-@app.route('/api/v0/user/<username>/add_command', methods=["POST"])
-def add_command(username):
-    command_text = request.form["command_text"]
-    api_key = request.form["api_key"]
-    another_id = request.form.get("id")
-    user = User.query.filter_by(name=username).first_or_404()
-
-    if another_id is not None and user.commands.filter_by(another_id=another_id).first() is not None:
-        abort(400)
-
-    if api_key != user.api_key:
-        abort(403)
-
-    c = Command(text=command_text, another_id=another_id)
-    user.commands.append(c)
-    db.session.add(c)
-    db.session.commit()
-    return "OK"
+command_resource_fields = {
+    "id": fields.Integer,
+    "command": fields.String,
+    "time_added": fields.DateTime,
+    "is_public": fields.Boolean
+}
 
 
-@app.route('/api/v0/user/<username>/get_commands')
-def get_commands(username):
-    api_key = request.args.get("api_key")
-    user = User.query.filter_by(name=username).first_or_404()
+class UserCommands(Resource):
+    @staticmethod
+    def _get_user_checking_credentials(username, api_key):
+        print username
+        user = User.query.filter_by(name=username).first()
+        if not user:
+            fr_abort(403, "No such user")
 
-    def convert_command(c):
-        return {"id": c.id,
-                "another_id": c.another_id,
-                "text": c.text,
-                "time_added": c.time_added,
-                "is_public": c.is_public}
+        if api_key != user.api_key:
+            fr_abort(403, message="Wrong API key")
 
-    return jsonify(comamnds=[convert_command(c) for c in user.get_commands(api_key != user.api_key)])
+    @marshal_with(command_resource_fields)
+    def get(self, username):
+        args = api_key_parser.parse_args()
+        user = UserCommands._get_user_checking_credentials(username, args['api_key'])
+        return user.get_commands()
+
+    def post(self, username):
+        args = add_command_parser.parse_args()
+        user = UserCommands._get_user_checking_credentials(username, args['api_key'])
+        command_text = args['command']
+        api_key = args['api_key']
+
+        user = User.query.filter_by(name=username).first()
+        if not user:
+            fr_abort(403, "No such user")
+
+        if api_key != user.api_key:
+            fr_abort(403, message="Wrong API key")
+
+        c = Command(text=command_text)
+        user.commands.append(c)
+        db.session.add(c)
+        db.session.commit()
+        return 200
+
+api.add_resource(UserCommands, '/api/v0/user/<username>/commands')
 
 
 @app.route('/authorize_callback')

@@ -38,8 +38,8 @@ def setup_logging():
 
 def upload_command(host, username, api_key, command_text):
     try:
-        payload = {'api_key': api_key, 'command_text': command_text}
-        r = requests.post("{}/api/v0/user/{}/add_command".format(host, username), data=payload)
+        payload = {'api_key': api_key, 'command': command_text}
+        r = requests.post("{}/api/v0/user/{}/commands".format(host, username), data=payload)
 
         r.raise_for_status()
     except Exception as e:

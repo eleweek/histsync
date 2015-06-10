@@ -1,4 +1,10 @@
 $( document ).ready(function() {
+    $.notifyDefaults({
+        animate: {
+            enter: 'animated fadeInDown',
+            exit: 'animated fadeOutUp'
+        }
+    });
     $("#show-api-key").click(function() {
         $("#show-api-key").hide();
         $("#hide-api-key").show();

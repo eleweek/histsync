@@ -82,8 +82,10 @@ $( document ).ready(function() {
         var row = $(".command-row-" + command_id);
         if (row.hasClass('command-row-clicked')) {
             row.removeClass('command-row-clicked');
+            row.find('pre').removeClass('code-compact-clicked');
         } else {
             row.addClass('command-row-clicked');
+            row.find('pre').addClass('code-compact-clicked');
         }
     });
 });

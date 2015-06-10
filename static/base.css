@@ -16,6 +16,10 @@ pre.code.compact{
   border-radius: 0px;
 }
 
+pre.code.compact.code-compact-clicked{
+  border-radius: 10px;
+}
+
 .command-controls {
   padding-top: 3px;
   padding-left: 20px;

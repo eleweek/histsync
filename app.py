@@ -277,12 +277,24 @@ def _unstar_command(id):
 @app.route('/_publish_command/<int:id>', methods=["POST"])
 def _publish_command(id):
     c = Command.query.get_or_404(id)
+    if current_user.is_anonymous() or current_user != c.user:
+        abort(403)
     c.is_public = True
-    print request.form
     c.text = request.form['command']
     c.description = request.form['description']
     db.session.commit()
 
+    return jsonify(result="OK")
+
+
+@app.route('/_edit_command/<int:id>', methods=["POST"])
+def _edit_command(id):
+    c = Command.query.get_or_404(id)
+    if current_user.is_anonymous() or current_user != c.user:
+        abort(403)
+    c.text = request.form['command']
+    c.description = request.form['description']
+    db.session.commit()
     return jsonify(result="OK")
 
 

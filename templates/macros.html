@@ -15,11 +15,11 @@
     <button class="btn btn-default btn-xs btn-delete-command btn-delete-command-{{command.id}}" data-command-id="{{command.id}}" type="button">
       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete
     </button>
-  {% endif %}
-  {% if editable %}
-    <button class="btn btn-default btn-xs btn-edit-command btn-edit-command-{{command.id}}" data-command-id="{{command.id}}" type="button">
-      <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
-    </button>
+    {% if editable %}
+      <button class="btn btn-default btn-xs btn-edit-command btn-edit-command-{{command.id}}" data-command-id="{{command.id}}" type="button">
+        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+      </button>
+    {% endif %}
   {% endif %}
 {% endmacro %} 
 

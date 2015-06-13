@@ -3,6 +3,10 @@ $( document ).ready(function() {
         return $('<div/>').text(str).html();
     };
 
+    var quot_escape = function(str) {
+        return str.replace(/"/g, "&quot;");
+    };
+
     var update_command = function(command_id, command_description, command_text, title, success_button_label, on_success_callback) {
         bootbox.dialog({
             title: title,
@@ -13,13 +17,13 @@ $( document ).ready(function() {
                                 '<div class="form-group"> ' +
                                     '<label class="col-md-4 control-label" for="pbf-description' + command_id + '">Description</label> ' +
                                     '<div class="col-md-4"> ' +
-                                        '<input id="pbf-description-' + command_id + '" name="pbf-description-' + command_id + '" type="text" placeholder="Description(can be empty)" value="' + command_description + '" class="form-control input-md"> ' +
+                                        '<input id="pbf-description-' + command_id + '" name="pbf-description-' + command_id + '" type="text" placeholder="Description(can be empty)" value="' + quot_escape(command_description) + '" class="form-control input-md"> ' +
                                     '</div>' + 
                                 '</div>' + 
                                 '<div class="form-group"> ' +
                                     '<label class="col-md-4 control-label" for="pbf-command-' + command_id + '">Command</label> ' +
                                     '<div class="col-md-4"> ' +
-                                        '<input id="pbf-command-' + command_id + '" name="pbf-command-' + command_id + '" type="text" placeholder="Command" class="form-control input-md" value="' + command_text + '"> ' +
+                                        '<input id="pbf-command-' + command_id + '" name="pbf-command-' + command_id + '" type="text" placeholder="Command" class="form-control input-md" value="' + quot_escape(command_text) + '"> ' +
                                     '</div>' +
                                 '</div>' +
                             '</form>' + 

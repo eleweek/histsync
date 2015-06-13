@@ -144,7 +144,7 @@ def public_commands():
 def profile(username):
     user = User.query.filter_by(name=username).first_or_404()
     user.add_api_key_if_necessary()
-    commands = current_user.get_commands(only_public=True)
+    commands = user.get_commands(only_public=True)
 
     # TODO: a new template
     return render_template("profile.html", commands=commands, username=username)

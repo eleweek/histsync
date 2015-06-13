@@ -51,6 +51,12 @@ $( document ).ready(function() {
     $(".btn-publish-command").click(function() {
         var command_id = $(this).data('command-id');
         var that = this;
+        var command_description_elem = $('.command-description-' + command_id);
+        var command_description = "";
+        if (command_description_elem.length > 0) {
+            command_description = command_description_elem.html().trim();
+        }
+
         bootbox.dialog({
             title: "Publishing command",
             message:
@@ -60,7 +66,7 @@ $( document ).ready(function() {
                                 '<div class="form-group"> ' +
                                     '<label class="col-md-4 control-label" for="pbf-description' + command_id + '">Description</label> ' +
                                     '<div class="col-md-4"> ' +
-                                        '<input id="pbf-description-' + command_id + '" name="pbf-description-' + command_id + '" type="text" placeholder="Description(can be empty)" value="' + $('.command-description-' + command_id).html().trim() + '" class="form-control input-md"> ' +
+                                        '<input id="pbf-description-' + command_id + '" name="pbf-description-' + command_id + '" type="text" placeholder="Description(can be empty)" value="' + command_description + '" class="form-control input-md"> ' +
                                     '</div>' + 
                                 '</div>' + 
                                 '<div class="form-group"> ' +

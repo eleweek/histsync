@@ -11,6 +11,7 @@ from flask_restful import fields, marshal_with
 from flask_restful import abort as fr_abort
 
 from sqlalchemy import func
+from sqlalchemy.sql import or_
 from datetime import datetime
 import humanize
 import os
@@ -124,6 +125,7 @@ class User(db.Model, UserMixin):
     def get_starred_commands(self):
         commands = Command.query\
                           .filter(Command.starred_by.any(Command.user == self))\
+                          .filter(or_(Command.is_public, Command.user == self))\
                           .order_by(Command.time_added.desc(), Command.id.desc())
 
         return commands
@@ -301,6 +303,8 @@ def _edit_command(id):
 @app.route('/_unpublish_command/<int:id>', methods=["POST"])
 def _unpublish_command(id):
     c = Command.query.get_or_404(id)
+    if current_user.is_anonymous() or current_user != c.user:
+        abort(403)
     c.is_public = False
     db.session.commit()
 

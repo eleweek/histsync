@@ -3,9 +3,11 @@
 import os
 import sys
 import argparse
+import urllib
+import urllib2
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--api_key", required=True, help="HistSync api key")
+parser.add_argument("--api-key", required=True, help="HistSync api key")
 parser.add_argument("--user", required=True, help="Your GitHub/HistSync username")
 parser.add_argument("--host", help="HistSync host", default="http://histsync.herokuapp.com")
 parser.add_argument("command", help="Command to send")
@@ -21,7 +23,6 @@ command_text = args.command
 if os.fork() != 0:
     sys.exit()
 
-import requests
 import logging
 
 
@@ -39,9 +40,8 @@ def setup_logging():
 def upload_command(host, username, api_key, command_text):
     try:
         payload = {'api_key': api_key, 'command': command_text}
-        r = requests.post("{}/api/v0/user/{}/commands".format(host, username), data=payload)
-
-        r.raise_for_status()
+        req = urllib2.Request("{}/api/v0/user/{}/commands".format(host, username), urllib.urlencode(payload))
+        urllib2.urlopen(req)
     except Exception as e:
         logging.exception(e)
 

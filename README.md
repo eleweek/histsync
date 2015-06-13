@@ -18,6 +18,6 @@ To use an alpha version of the app, try this:
 
 ```
 preexec() {
-    ~/histsync-client.py --api_key <your_api_key> --user <your_username> "$1" >>~/histsync.log 2>&1;
+    ~/histsync-client.py --api-key <your_api_key> --user <your_username> "$1" >>~/histsync.log 2>&1;
 }
 ``` 

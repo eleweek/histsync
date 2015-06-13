@@ -2,7 +2,7 @@ pre.code{
   background-color: rgba(13, 15, 21, 1);
   color: #EFF7FF;
   padding: 5px 10px;
-  font-family: monospaced, monaco;
+  font-family: monospace, monaco;
   border-radius: 10px;
 }
 
@@ -12,7 +12,7 @@ pre.code.compact{
   padding: 5px 10px;
   border: 0px;
   margin: 0px 0px;
-  font-family: monospaced, monaco;
+  font-family: monospace, monaco;
   border-radius: 0px;
 }
 

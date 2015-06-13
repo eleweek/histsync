@@ -84,6 +84,7 @@ class Command(db.Model):
     time_shared = db.Column(db.DateTime, default=func.now())
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    description = db.Column(db.Text())
 
     def format_time_added(self):
         if self.time_added:
@@ -277,6 +278,9 @@ def _unstar_command(id):
 def _publish_command(id):
     c = Command.query.get_or_404(id)
     c.is_public = True
+    print request.form
+    c.text = request.form['command']
+    c.description = request.form['description']
     db.session.commit()
 
     return jsonify(result="OK")

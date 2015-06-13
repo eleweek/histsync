@@ -11,7 +11,7 @@
         {% for c in commands.items %}
         <div id="command-row-{{c.id}}" class="command-row command-row-{{c.id}}">
             <div class="command-compact command-compact-{{c.id}}" data-command-id="{{c.id}}">
-              <pre class="code compact"> $&nbsp; {{- c.text -}} </pre>
+              <pre class="code compact pre-command-{{c.id}}"> $&nbsp; {{- c.text -}} </pre>
             </div>
             <div class="command-controls command-controls-{{c.id}}" style="display:none;">
               {{ macros.command_controls(c,

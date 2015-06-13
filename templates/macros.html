@@ -6,7 +6,7 @@
     <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Unstar <span class="badge stars-number">{{stars_number}}</span>
   </button>
   {% if is_owner %}
-    <button class="btn btn-default btn-xs btn-publish-command btn-publish-command-{{command.id}}" data-command-id="{{command.id}}" type="button" {% if published %} style="display:none;" {% endif %}>
+  <button class="btn btn-default btn-xs btn-publish-command btn-publish-command-{{command.id}}" data-command-id="{{command.id}}" data-command-text="{{command.text}}" type="button" {% if published %} style="display:none;" {% endif %}>
       <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> Publish
     </button>
     <button class="btn btn-default btn-xs btn-unpublish-command btn-unpublish-command-{{command.id}}" data-command-id="{{command.id}}" type="button" {% if not published %} style="display:none;" {% endif %}>
@@ -35,9 +35,14 @@
       </h5>
     </div>
     <div class="panel-body">
-      <pre class="code"> $&nbsp; {{- command.text -}} </pre>
+      <p class="command-description-{{command.id}}">
+        {% if command.description %}
+          {{ command.description }}
+        {% endif %}
+      </p>
+      <pre class="code pre-command-{{command.id}}"> $&nbsp; {{- command.text -}} </pre>
     </div>
-    <div class="panel-footer">42 Comments</div>
+    {# <div class="panel-footer">42 Comments</div> #}
   </div>
 {% endmacro %}
 

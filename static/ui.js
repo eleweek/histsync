@@ -73,6 +73,10 @@ $( document ).ready(function() {
                         '</div>' +
                     '</div>',
             buttons: {
+                cancel: {
+                    label: "Cancel",
+                    className: "btn-default"
+                },
                 success: {
                     label: "Publish",
                     className: "btn-success",

@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 
 {% import 'macros.html' as macros %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
 <div class="container">
-    <h2>My Shell History</h2>
+    <h2>{{title}}</h2>
+    {% if search_form %}
+      {{wtf.quick_form(search_form, form_type='inline')}}
+    {% endif %}
     {{ macros.render_pagination(commands) }}
     <div class="row commands-row">
       <div class="col-xs-12">

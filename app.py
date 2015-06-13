@@ -17,6 +17,10 @@ import humanize
 import os
 from uuid import uuid4
 
+from flask_wtf import Form
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
+
 api_key_parser = reqparse.RequestParser()
 api_key_parser.add_argument('api_key')
 
@@ -65,6 +69,11 @@ def get_or_create(model, **kwargs):
         instance = model(**kwargs)
         db.session.add(instance)
     return instance
+
+
+class SearchForm(Form):
+    regex = StringField('regex', validators=[DataRequired()])
+    search_button = SubmitField('Search')
 
 
 # TODO: duplicates: http://stackoverflow.com/questions/16035043/how-to-avoid-adding-duplicates-in-a-many-to-many-relationship-table-in-sqlalchem
@@ -153,12 +162,24 @@ def profile(username):
     return render_template("profile.html", commands=commands, username=username)
 
 
-@app.route('/my_shell_history', defaults={"page": 1})
-@app.route('/my_shell_history/page/<int:page>')
+@app.route('/my_shell_history', defaults={"page": 1}, methods=["GET", "POST"])
+@app.route('/my_shell_history/page/<int:page>', methods=["GET", "POST"])
 @login_required
 def my_shell_history(page):
+    search_form = SearchForm()
+    if search_form.validate_on_submit():
+        return redirect(url_for("my_shell_history_search", regex=search_form.regex.data))
+
     commands = current_user.get_commands(only_public=False).paginate(per_page=100, page=page)
-    return render_template("shell_history.html", commands=commands)
+    return render_template("shell_history.html", commands=commands, search_form=search_form, title="My Shell History")
+
+
+@app.route('/my_shell_history/search/<regex>', defaults={"page": 1})
+@app.route('/my_shell_history/search/<regex>/page/<int:page>')
+@login_required
+def my_shell_history_search(page, regex):
+    commands = current_user.get_commands(only_public=False).filter(Command.text.op("~")(regex)).paginate(per_page=100, page=page)
+    return render_template("shell_history.html", commands=commands, title="My Shell History: search results for [{}]".format(regex))
 
 
 @app.route('/my_starred_commands')

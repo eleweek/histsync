@@ -21,3 +21,7 @@ preexec() {
     ~/histsync-client.py --api-key <your_api_key> --user <your_username> "$1" >>~/histsync.log 2>&1;
 }
 ``` 
+
+## Special thanks
+
+Goes to [raoulvdberge](https://github.com/raoulvdberge) for early testing, bug reporting & advice

@@ -3,13 +3,12 @@
 import os
 import sys
 import argparse
-import urllib
-import urllib2
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--api-key", required=True, help="HistSync api key")
 parser.add_argument("--user", required=True, help="Your GitHub/HistSync username")
-parser.add_argument("--host", help="HistSync host", default="http://histsync.herokuapp.com")
+parser.add_argument("--host", help="HistSync host", default="http://histsync.io/")
+parser.add_argument("--log-file", help="Log file. If not specified or empty, logging is disabled", default="")
 parser.add_argument("command", help="Command to send")
 args = parser.parse_args()
 
@@ -24,17 +23,8 @@ if os.fork() != 0:
     sys.exit()
 
 import logging
-
-
-def setup_logging():
-    logger = logging.getLogger()
-    logger.setLevel(logging.DEBUG)
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(asctime)s - %(process)d - %(name)s - %(levelname)s - %(message)s')
-
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
+import urllib
+import urllib2
 
 
 def upload_command(host, username, api_key, command_text):
@@ -46,5 +36,10 @@ def upload_command(host, username, api_key, command_text):
         logging.exception(e)
 
 
-setup_logging()
+if args.log_file:
+    logging.basicConfig(filename=args.log_file, level=logging.DEBUG, format='%(asctime)s - %(process)d - %(name)s - %(levelname)s - %(message)s')
+else:
+    logging.disable(logging.CRITICAL)
+
+logging.error("Test error please ignore!!!")
 upload_command(host, user, api_key, command_text)

@@ -1,30 +1,32 @@
-#!/usr/bin/env python
+#!/bin/sh
+# The beginning of this script is both valid shell and valid python.
+# This is necessary to reduce script run time in foreground
+# It quickly fork-and-execs then exits
+# I discovered the trick in Servo codebase: https://github.com/servo/servo/blob/c6ab60dbfc6da7b4f800c9e40893c8b58413960c/mach
+'''python'  "$0" "$@" &
+exit
+'''
 
 import os
 import sys
 import argparse
+import logging
+import urllib
+import urllib2
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--api-key", required=True, help="HistSync api key")
 parser.add_argument("--user", required=True, help="Your GitHub/HistSync username")
-parser.add_argument("--host", help="HistSync host", default="http://histsync.io/")
+parser.add_argument("--host", help="HistSync host", default="http://www.histsync.io")
 parser.add_argument("--log-file", help="Log file. If not specified or empty, logging is disabled", default="")
 parser.add_argument("command", help="Command to send")
 args = parser.parse_args()
-
-shell_pid = os.getppid()
 
 user = args.user
 api_key = args.api_key
 host = args.host
 command_text = args.command
-
-if os.fork() != 0:
-    sys.exit()
-
-import logging
-import urllib
-import urllib2
 
 
 def upload_command(host, username, api_key, command_text):

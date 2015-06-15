@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, abort, jsonify
+from flask import Flask, render_template, request, redirect, url_for, abort, jsonify, send_from_directory
 from flask_bootstrap import Bootstrap
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.script import Manager
@@ -331,6 +331,13 @@ def _unpublish_command(id):
     db.session.commit()
 
     return jsonify(result="OK")
+
+
+@app.route('/download-client/<part>')
+def download_client(part):
+    if part not in ['bash-preexec.sh', 'histsync-client']:
+        abort(404)
+    return send_from_directory('.', part)
 
 
 @manager.command

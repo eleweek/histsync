@@ -43,5 +43,4 @@ if args.log_file:
 else:
     logging.disable(logging.CRITICAL)
 
-logging.error("Test error please ignore!!!")
 upload_command(host, user, api_key, command_text)

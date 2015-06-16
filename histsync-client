@@ -3,7 +3,7 @@
 # This is necessary to reduce script run time in foreground
 # It quickly fork-and-execs then exits
 # I discovered the trick in Servo codebase: https://github.com/servo/servo/blob/c6ab60dbfc6da7b4f800c9e40893c8b58413960c/mach
-'''python'  "$0" "$@" &
+'''python2'  "$0" "$@" &
 exit
 '''
 

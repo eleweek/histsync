@@ -180,4 +180,8 @@ $( document ).ready(function() {
             row.find('pre').addClass('code-compact-clicked');
         }
     });
+
+    $(".install-button").click(function() {
+        $('.install-command').show();
+    });
 });

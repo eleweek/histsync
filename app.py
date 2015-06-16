@@ -335,9 +335,14 @@ def _unpublish_command(id):
 
 @app.route('/download-client/<part>')
 def download_client(part):
-    if part not in ['bash-preexec.sh', 'histsync-client']:
+    if part not in ['bash-preexec.sh', 'histsync-client', 'install.bash']:
         abort(404)
     return send_from_directory('.', part)
+
+
+@app.route('/faq')
+def faq():
+    return render_template("faq.html")
 
 
 @manager.command

@@ -17,6 +17,11 @@
     <div class="starter-template">
       <h1>HistSync.io: cloud .bash_history </h1>
       <p class="lead">HistSync automatically uploads every command you type,<br> and lets you bookmark and share the most important commands.</p>
+      <p>
+        <a class="btn btn-primary btn-lg install-button" href="#" role="button">Install now &raquo;</a>
+        <a class="btn btn-primary btn-lg" href="{{url_for('faq')}}" role="button">Read FAQ &raquo;</a>
+      </p>
+      <pre class="code install-command" style="display: none;"> $ curl http://www.histsync.io/download-client/install.bash | bash </pre>
     </div>
 
     {{ macros.command_list(commands) }}

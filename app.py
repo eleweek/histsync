@@ -10,7 +10,7 @@ from flask_restful import Resource, Api, reqparse
 from flask_restful import fields, marshal_with
 from flask_restful import abort as fr_abort
 
-from sqlalchemy import func
+from sqlalchemy import func, PrimaryKeyConstraint
 from sqlalchemy.sql import or_
 from datetime import datetime
 import humanize
@@ -76,10 +76,10 @@ class SearchForm(Form):
     search_button = SubmitField('Search')
 
 
-# TODO: duplicates: http://stackoverflow.com/questions/16035043/how-to-avoid-adding-duplicates-in-a-many-to-many-relationship-table-in-sqlalchem
 stars_users = db.Table('stars_users',
                        db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-                       db.Column('command_id', db.Integer, db.ForeignKey('command.id'))
+                       db.Column('command_id', db.Integer, db.ForeignKey('command.id')),
+                       PrimaryKeyConstraint('user_id', 'command_id')
                        )
 
 
@@ -297,7 +297,7 @@ def _star_command(id):
 @app.route('/_unstar_command/<int:id>', methods=["POST"])
 def _unstar_command(id):
     c = Command.query.get_or_404(id)
-    current_user.remove(c)
+    current_user.starred_commands.remove(c)
     db.session.commit()
 
     return jsonify(result="OK")

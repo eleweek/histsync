@@ -85,12 +85,30 @@ $( document ).ready(function() {
             $.notify("Failed to remove the command!");
         });
     });
+
+    $(".btn-unstar-command").click(function() {
+        var command_id = $(this).data('command-id');
+        var that = this;
+        $.post("/_unstar_command/" + command_id).done(function(done){
+            $(that).hide();
+            $(".btn-star-command-" + command_id).show();
+            stars_num = $(".stars-number-" + command_id);
+            stars_num.html(+stars_num.html() - 1);
+            $.notify("Succesfully unstarred the command!");
+        }).fail(function() {
+            $(that).show();
+            $.notify("Failed to unstar the command!");
+        });
+    });
+
     $(".btn-star-command").click(function() {
         var command_id = $(this).data('command-id');
         var that = this;
         $.post("/_star_command/" + command_id).done(function(done){
             $(that).hide();
             $(".btn-unstar-command-" + command_id).show();
+            stars_num = $(".stars-number-" + command_id);
+            stars_num.html(+stars_num.html() + 1);
             $.notify("Succesfully starred the command!");
         }).fail(function() {
             $(that).show();

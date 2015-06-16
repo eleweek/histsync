@@ -1,9 +1,9 @@
 {% macro command_controls(command, starred, stars_number, is_owner, published, editable=false) %}
   <button class="btn btn-default btn-xs btn-star-command btn-star-command-{{command.id}}" data-command-id="{{command.id}}" type="button" {% if starred %} style="display:none;" {% endif %}>
-    <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Star <span class="badge stars-number">{{stars_number}}</span>
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Star <span class="badge stars-number stars-number-{{command.id}}">{{stars_number}}</span>
   </button>
   <button class="btn btn-default btn-xs btn-unstar-command btn-unstar-command-{{command.id}}" data-command-id="{{command.id}}" type="button" {% if not starred %} style="display:none;" {% endif %}>
-    <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Unstar <span class="badge stars-number">{{stars_number}}</span>
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Unstar <span class="badge stars-number stars-number-{{command.id}}">{{stars_number}}</span>
   </button>
   {% if is_owner %}
   <button class="btn btn-default btn-xs btn-publish-command btn-publish-command-{{command.id}}" data-command-id="{{command.id}}" type="button" {% if published %} style="display:none;" {% endif %}>

@@ -14,3 +14,6 @@ echo 'source ~/.histsync/bash-preexec.sh'
 echo 'preexec() {'
 echo '    ~/histsync/histsync-client --api-key {{hist_sync_api_key}} --user {{github_username}} "$1" --log-file ~/.histsync/log;'
 echo '}'
+echo
+echo
+echo "# And don't forget to resource your .bashrc / .bash_profile or restart bash"

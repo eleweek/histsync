@@ -1,3 +1,4 @@
+#!/bin/bash
 mkdir -p ~/.histsync
 for file in {'bash-preexec.sh','histsync-client'}; do
     echo Downloading, $file

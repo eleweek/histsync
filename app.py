@@ -196,7 +196,7 @@ def my_starred_commands():
 
 command_resource_fields = {
     "id": fields.Integer,
-    "command": fields.String,
+    "text": fields.String,
     "time_added": fields.DateTime,
     "is_public": fields.Boolean
 }
@@ -205,32 +205,24 @@ command_resource_fields = {
 class UserCommands(Resource):
     @staticmethod
     def _get_user_checking_credentials(username, api_key):
-        print username
         user = User.query.filter_by(name=username).first()
         if not user:
             fr_abort(403, "No such user")
 
         if api_key != user.api_key:
             fr_abort(403, message="Wrong API key")
+        return user
 
     @marshal_with(command_resource_fields)
     def get(self, username):
         args = api_key_parser.parse_args()
         user = UserCommands._get_user_checking_credentials(username, args['api_key'])
-        return user.get_commands()
+        return user.get_commands().all()
 
     def post(self, username):
         args = add_command_parser.parse_args()
         user = UserCommands._get_user_checking_credentials(username, args['api_key'])
         command_text = args['command']
-        api_key = args['api_key']
-
-        user = User.query.filter_by(name=username).first()
-        if not user:
-            fr_abort(403, "No such user")
-
-        if api_key != user.api_key:
-            fr_abort(403, message="Wrong API key")
 
         c = Command(text=command_text)
         user.commands.append(c)

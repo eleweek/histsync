@@ -342,8 +342,6 @@ def _unpublish_command(id):
 def download_client(part):
     if part not in ['bash-preexec.sh', 'histsync-client', 'install.bash']:
         abort(404)
-    if current_user.is_authenticated() and part == 'install.bash':
-        return render_template('install.bash', hist_sync_api_key=current_user.api_key, github_username=current_user.name)
     return send_from_directory('.', part)
 
 

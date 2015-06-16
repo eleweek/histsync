@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% macro faq_entry(question, answer) %}
+<p>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"> {{ question | safe }} </h3>
+    </div>
+    <div class="panel-body">
+      {{ answer | safe}}
+    </div>
+  </div>
+</p>
+{%endmacro %}
+
+{% block content %}
+  <div class="container">
+    <p><h1>HistSync.io: FAQ</h1></p>
+    <br>
+    {{ faq_entry("How does it work?", 'The server part is pretty much standard web app. The client uses <a href="https://github.com/rcaloras/bash-preexec">bash-preexec hack</a> to send commands when they are executed.') }}    
+    {{ faq_entry("Does it send commands to a centralized server?", "Yes. It is part of the experiment. I really would like to see people sharing their one-liners, and I hope HistSync makes sharing easier") }}    
+    {{ faq_entry("Are commands private by default?", "Yes. Everything is private by default. But you can choose cool one-liners and share them with others! In fact, this is highly encouraged :) ") }}    
+    {{ faq_entry("I don't want to send my commands to some other guy's server. Can I deploy the app locally (or on my own VPS)", 'Well, yeah. <a href="https://github.com/eleweek/histsync">The code for both server and client is available under the MIT license</a>. The authentication part is handled by github, so stand-alone installation may be tricky, but it will be implemented in the near future: <a href="https://github.com/eleweek/histsync/issues/10">See this issue.</a> ') }}    
+    {{ faq_entry("Does it work with other shells?", "zsh has preexec() by default, so you don't need to use bash-preexec hack(i.e. don't source bash-preexec.sh). I'm not sure about other shells.") }}    
+    {{ faq_entry("Is there an API?", 'Yes, but the current API is limited (sending commands and getting a full list). There will be <a href="https://github.com/eleweek/histsync/issues/4">a full API available in the near future.</a> The full API is important, so it is a priority.') }}    
+    {{ faq_entry("I think it would be cool if the app did [X]", 'I probably think this too! I wanted to release a minimal version before adding new features. I\'ll be happy to hear your feedback <a href="https://github.com/eleweek/histsync/issues">here</a>') }}    
+  </div>
+{% endblock %}
+
+

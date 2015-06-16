@@ -118,7 +118,7 @@ $( document ).ready(function() {
                 $.notify("Failed to star the command!");
             });
         } else {
-            $.notify("Please login to bookmark commands");
+            $.notify("Please login to star commands");
         }
     });
 

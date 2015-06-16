@@ -19,7 +19,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
           {% if current_user.is_anonymous() %}
-            <a href="{{url_for('login')}}" class="btn navbar-btn btn-success">Login with GitHub</a>
+            <a href="{{url_for('login')}}" class="btn navbar-btn btn-success login-btn">Login with GitHub</a>
           {% else %}
             <a href="{{url_for('my_shell_history')}}" class="btn navbar-btn">History</a>
             <a href="{{url_for('my_starred_commands')}}" class="btn navbar-btn">Starred</a>
@@ -27,7 +27,7 @@
           {% endif %}
           <a href="{{url_for('public_commands')}}" class="btn btn-primary navbar-btn">Discover</a>
           {% if current_user.is_authenticated() %}
-            <a href="{{url_for('logout')}}" class="btn navbar-btn btn-success">Logout</a>
+            <a href="{{url_for('logout')}}" class="btn navbar-btn btn-success btn-logout">Logout</a>
           {% endif %}
       </ul>
     </div><!-- /.navbar-collapse -->

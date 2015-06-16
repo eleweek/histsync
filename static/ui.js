@@ -7,6 +7,8 @@ $( document ).ready(function() {
         return str.replace(/"/g, "&quot;");
     };
 
+    var logged_in = ($('.login-btn').length === 0);
+
     var update_command = function(command_id, command_description, command_text, title, success_button_label, on_success_callback) {
         bootbox.dialog({
             title: title,
@@ -102,18 +104,22 @@ $( document ).ready(function() {
     });
 
     $(".btn-star-command").click(function() {
-        var command_id = $(this).data('command-id');
-        var that = this;
-        $.post("/_star_command/" + command_id).done(function(done){
-            $(that).hide();
-            $(".btn-unstar-command-" + command_id).show();
-            stars_num = $(".stars-number-" + command_id);
-            stars_num.html(+stars_num.html() + 1);
-            $.notify("Succesfully starred the command!");
-        }).fail(function() {
-            $(that).show();
-            $.notify("Failed to star the command!");
-        });
+        if (logged_in) {
+            var command_id = $(this).data('command-id');
+            var that = this;
+            $.post("/_star_command/" + command_id).done(function(done){
+                $(that).hide();
+                $(".btn-unstar-command-" + command_id).show();
+                stars_num = $(".stars-number-" + command_id);
+                stars_num.html(+stars_num.html() + 1);
+                $.notify("Succesfully starred the command!");
+            }).fail(function() {
+                $(that).show();
+                $.notify("Failed to star the command!");
+            });
+        } else {
+            $.notify("Please login to bookmark commands");
+        }
     });
 
     $(".btn-publish-command").click(function() {

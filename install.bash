@@ -3,7 +3,7 @@ for file in {'bash-preexec.sh','histsync-client'}; do
     curl "http://histsync.io/download-client/$file" > ~/.histsync/$file;
 done
 
-echo '# Add the following lines in your .bashrc or .bash_profiles'
+echo '# Add the following lines in your .bashrc / .bash_profiles'
 echo '# ============'
 echo '# HistSync'
 echo 'source ~/.bash-preexec.sh'

@@ -2,7 +2,7 @@
 mkdir -p ~/.histsync
 for file in {'bash-preexec.sh','histsync-client'}; do
     echo Downloading, $file
-    curl "http://histsync.io/download-client/$file" > ~/.histsync/$file;
+    curl "http://www.histsync.io/download-client/$file" > ~/.histsync/$file;
 done
 
 echo

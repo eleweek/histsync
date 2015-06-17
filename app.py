@@ -185,7 +185,7 @@ def my_shell_history(page):
 @login_required
 def my_shell_history_search(page, regex):
     commands = current_user.get_commands(only_public=False).filter(Command.text.op("~")(regex)).paginate(per_page=100, page=page)
-    return render_template("shell_history.html", commands=commands, title="My Shell History: search results for [{}]".format(regex))
+    return render_template("shell_history.html", commands=commands, title=u"My Shell History: search results for [{}]".format(regex))
 
 
 @app.route('/my_starred_commands')

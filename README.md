@@ -13,7 +13,7 @@ And then add this to your .bashrc / .bash_profile
 
 ```
 preexec() {
-    ~/histsync/histsync-client --api-key {{hist_sync_api_key}} --user {{github_username}} "$1" --log-file ~/.histsync/log;
+    ~/.histsync/histsync-client --api-key {{hist_sync_api_key}} --user {{github_username}} "$1" --log-file ~/.histsync/log;
 }
 ``` 
 

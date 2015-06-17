@@ -149,7 +149,7 @@ __bp_preexec_invoke_exec() {
     local this_command="$(history 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g")";
 
     # Sanity check to make sure we have something to invoke our function with.
-    if [ -z "$this_command" ]; then
+    if [[ -z "$this_command" ]]; then
         return
     fi
 
@@ -172,7 +172,7 @@ __bp_preexec_invoke_exec() {
 __bp_preexec_and_precmd_install() {
 
     # Make sure this is bash that's running this and return otherwise.
-    if [ -z "$BASH_VERSION" ]; then
+    if [[ -z "$BASH_VERSION" ]]; then
         return 1;
     fi
 
@@ -185,7 +185,7 @@ __bp_preexec_and_precmd_install() {
     # if it doesn't already have one.
     local existing_prompt_command
 
-    if [ -n "$PROMPT_COMMAND" ]; then
+    if [[ -n "$PROMPT_COMMAND" ]]; then
         existing_prompt_command=$(echo "$PROMPT_COMMAND" | sed '/; *$/!s/$/;/')
     else
         existing_prompt_command=""

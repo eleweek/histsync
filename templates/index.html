@@ -21,7 +21,7 @@
         <a class="btn btn-primary btn-lg install-button" href="#" role="button">Install now &raquo;</a>
         <a class="btn btn-primary btn-lg" href="{{url_for('faq')}}" role="button">Read FAQ &raquo;</a>
       </p>
-      <pre class="code install-command" style="display: none;"> $ curl http://www.histsync.io/download-client/install.bash | bash </pre>
+      <pre class="code install-command" style="display: none;"> $ bash &lt;(curl http://www.histsync.io/download-client/install.bash) </pre>
     </div>
 
     {{ macros.command_list(commands) }}

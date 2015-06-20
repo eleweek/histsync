@@ -7,7 +7,7 @@ The app is currently under heavy development.
 ## Installing
 
 Run: 
-```curl http://www.histsync.io/download-client/install.bash | bash```
+```bash <(curl http://www.histsync.io/download-client/install.bash)```
 
 And then add this to your .bashrc / .bash_profile
 

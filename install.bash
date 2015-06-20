@@ -7,6 +7,9 @@ done
 
 chmod +x ~/.histsync/histsync-client
 
+read -p "Github username: " username
+read -p "API key (from histsync.io profile): " key
+
 echo
 echo
 echo '# Add the following lines in your .bashrc / .bash_profiles'
@@ -14,7 +17,7 @@ echo '# ============'
 echo '# HistSync'
 echo 'source ~/.histsync/bash-preexec.sh'
 echo 'preexec() {'
-echo '    ~/.histsync/histsync-client --api-key {{hist_sync_api_key}} --user {{github_username}} "$1" --log-file ~/.histsync/log;'
+echo "    ~/histsync/histsync-client --api-key $key --user $username \"\$1\" --log-file ~/.histsync/log;"
 echo '}'
 echo
 echo

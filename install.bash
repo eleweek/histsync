@@ -24,7 +24,7 @@ write (){
 	echo '# HistSync' >> ~/$configfile
 	echo 'source ~/.histsync/bash-preexec.sh' >> ~/$configfile
 	echo 'preexec() {' >> ~/$configfile
-	echo "    ~/histsync/histsync-client --api-key $key --user $username \"\$1\" --log-file ~/.histsync/log;" >> ~/$configfile
+	echo "    ~/.histsync/histsync-client --api-key $key --user $username \"\$1\" --log-file ~/.histsync/log;" >> ~/$configfile
 	echo '}' >> ~/$configfile
 	echo
 	echo "$(tput setaf 2)"'Done!'; tput sgr0

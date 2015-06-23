@@ -133,7 +133,7 @@ class User(db.Model, UserMixin):
 
     def get_starred_commands(self):
         commands = Command.query\
-                          .filter(Command.starred_by.any(Command.user == self))\
+                          .filter(Command.starred_by.any(User.id == self.id))\
                           .filter(or_(Command.is_public, Command.user == self))\
                           .order_by(Command.time_added.desc(), Command.id.desc())
 

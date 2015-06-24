@@ -33,3 +33,9 @@ pre.code.compact.code-compact-clicked{
 div.command-row.command-row-clicked {
   padding-top: 20px;
 }
+
+@media (max-width: 768px) {
+  .github-banner {
+    display: none;
+  }
+}

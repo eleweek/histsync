@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, abort, jsonify, send_from_directory
 from flask_bootstrap import Bootstrap
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.script import Manager
-from flask.ext.migrate import Migrate, MigrateCommand
-from flask.ext.github import GitHub
-from flask.ext.login import LoginManager, login_user, logout_user, current_user, UserMixin, login_required
+from flask_sqlalchemy import SQLAlchemy
+from flask_script import Manager
+from flask_migrate import Migrate, MigrateCommand
+from flask_github import GitHub
+from flask_login import LoginManager, login_user, logout_user, current_user, UserMixin, login_required
 
 from flask_restful import Resource, Api, reqparse
 from flask_restful import fields, marshal_with

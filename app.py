@@ -207,7 +207,7 @@ class UserCommands(Resource):
     def _get_user_checking_credentials(username, api_key):
         user = User.query.filter_by(name=username).first()
         if not user:
-            fr_abort(403, "No such user")
+            fr_abort(403, message="No such user")
 
         if api_key != user.api_key:
             fr_abort(403, message="Wrong API key")

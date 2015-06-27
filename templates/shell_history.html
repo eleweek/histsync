@@ -19,7 +19,7 @@
             </div>
             <div class="command-controls command-controls-{{c.id}}" style="display:none;">
               {{ macros.command_controls(c,
-                                         c in current_user.starred_commands, c.starred_by | length,
+                                         c in current_user.starred_commands, c.starred_by.count(),
                                          current_user.is_authenticated() and c.user == current_user,
                                          c.is_public) }}
             </div>

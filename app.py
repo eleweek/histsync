@@ -112,7 +112,7 @@ class User(db.Model, UserMixin):
     github_access_token = db.Column(db.String(200))
     commands = db.relationship("Command", lazy='dynamic', backref='user')
     starred_commands = db.relationship('Command', secondary=stars_users, lazy='joined',
-                                       backref=db.backref('starred_by', lazy='joined'))
+                                       backref=db.backref('starred_by', lazy='dynamic'))
 
     def add_api_key_if_necessary(self):
         if not self.api_key:
@@ -142,8 +142,7 @@ class User(db.Model, UserMixin):
 
 @app.route('/')
 def index():
-    # TODO: hack, user proper queries
-    commands = sorted(Command.query.filter_by(is_public=True).all(), key=lambda c: len(c.starred_by), reverse=True)
+    commands = Command.query.filter_by(is_public=True).outerjoin("starred_by").group_by(Command.id).order_by(db.func.count(User.id).desc()).all()
     return render_template("index.html", commands=commands)
 
 

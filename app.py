@@ -16,7 +16,6 @@ from datetime import datetime
 import humanize
 import os
 from uuid import uuid4
-import logging
 
 from flask_wtf import Form
 from wtforms import StringField, SubmitField
@@ -36,8 +35,6 @@ app.config['GITHUB_CLIENT_ID'] = os.environ['GITHUB_APP_ID']
 Bootstrap(app)
 github = GitHub(app)
 api = Api(app)
-logging.basicConfig(level=logging.DEBUG)
-logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
 
 def url_for_other_page(page):

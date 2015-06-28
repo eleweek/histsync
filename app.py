@@ -16,6 +16,7 @@ from datetime import datetime
 import humanize
 import os
 from uuid import uuid4
+import logging
 
 from flask_wtf import Form
 from wtforms import StringField, SubmitField
@@ -35,6 +36,8 @@ app.config['GITHUB_CLIENT_ID'] = os.environ['GITHUB_APP_ID']
 Bootstrap(app)
 github = GitHub(app)
 api = Api(app)
+logging.basicConfig(level=logging.DEBUG)
+logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
 
 def url_for_other_page(page):
@@ -142,8 +145,9 @@ class User(db.Model, UserMixin):
 
 @app.route('/')
 def index():
-    # TODO: hack, user proper queries
-    commands = sorted(Command.query.filter_by(is_public=True).all(), key=lambda c: len(c.starred_by), reverse=True)
+    commands = Command.query.filter_by(is_public=True).\
+        options(db.subqueryload(Command.starred_by)).outerjoin("starred_by").\
+        group_by(Command.id).order_by(db.func.count(User.id).desc()).all()
     return render_template("index.html", commands=commands)
 
 

@@ -142,8 +142,9 @@ class User(db.Model, UserMixin):
 
 @app.route('/')
 def index():
-    # TODO: hack, user proper queries
-    commands = sorted(Command.query.filter_by(is_public=True).all(), key=lambda c: len(c.starred_by), reverse=True)
+    commands = Command.query.filter_by(is_public=True).\
+        options(db.subqueryload(Command.starred_by)).outerjoin("starred_by").\
+        group_by(Command.id).order_by(db.func.count(User.id).desc()).all()
     return render_template("index.html", commands=commands)
 
 

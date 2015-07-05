@@ -96,6 +96,9 @@ class Command(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     description = db.Column(db.Text())
 
+    def __repr__(self):
+        return u'Command {} "{}"'.format(self.id, self.text)
+
     def format_time_added(self):
         if self.time_added:
             return humanize.naturaltime(datetime.utcnow() - self.time_added)
@@ -113,6 +116,9 @@ class User(db.Model, UserMixin):
     commands = db.relationship("Command", lazy='dynamic', backref='user')
     starred_commands = db.relationship('Command', secondary=stars_users, lazy='joined',
                                        backref=db.backref('starred_by', lazy='joined'))
+
+    def __repr__(self):
+        return u'User {} {}'.format(self.id, self.name)
 
     def add_api_key_if_necessary(self):
         if not self.api_key:

@@ -39,3 +39,7 @@ div.command-row.command-row-clicked {
     display: none;
   }
 }
+
+.histsync-navbar-sections {
+    padding-right: 10px;
+}

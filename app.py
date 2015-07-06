@@ -245,8 +245,7 @@ api.add_resource(UserCommands, '/api/v0/user/<username>/commands')
 def authorized(access_token):
     next_url = request.args.get('next') or url_for('index')
     if access_token is None:
-        # TODO
-        raise Exception("TODO: handle absent access token!")
+        return "No access token. If you think this is a bug, please report it: http://github.com/eleweek/histsync", 403
 
     user_json = github.get("user".format(), params={'access_token': access_token})
     user = get_or_create(User, name=user_json["login"], email=user_json.get("email"), github_access_token=access_token)

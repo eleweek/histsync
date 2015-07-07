@@ -29,7 +29,7 @@ Using foreman is recommended(makes easier config managing)
 
 1. Initialize virtual environment: ```virtualenv histsync-venv```
 2. Activate virtual environment ```source histsync-venv/bin/activate```
-3. Install dependencies ```pip install -r requirements.txt```
+3. Install dependencies ```pip install -r requirements-dev.txt```
 
 ### Database
 
@@ -43,11 +43,22 @@ db.create_all()
 ```
 3. TODO: migrations
 
+### .env 
+
+Create .env file containing these lines
 
 ```
->>> from app import *
->>> db.create_all()
+STANDALONE="true"
+STANDALONE_USERNAME="yourusername"
+DATABASE_URL="sqlite:///sqlite.db"
+GITHUB_APP_ID="noid"
+GITHUB_APP_SECRET="nosecret"
+SECRET_KEY="devkey"
 ```
+
+### Running the app
+
+```foreman run python app.py run```
 
 ## Special thanks for helping with 1.0 release
 

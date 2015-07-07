@@ -19,6 +19,36 @@ preexec() {
 }
 ``` 
 
-## Special thanks
+## Running development version locally
+
+HistSync uses python2.7
+
+Using foreman is recommended(makes easier config managing)
+
+### Virtual Environment
+
+1. Initialize virtual environment: ```virtualenv histsync-venv```
+2. Activate virtual environment ```source histsync-venv/bin/activate```
+3. Install dependencies ```pip install -r requirements.txt```
+
+### Database
+
+HistSync uses postgres in production(and it is recommended to use postgres in development), but using sqlite is also fine.
+
+1. Run ```foreman run python```
+2. In python shell: 
+```
+from app import db
+db.create_all()
+```
+3. TODO: migrations
+
+
+```
+>>> from app import *
+>>> db.create_all()
+```
+
+## Special thanks for helping with 1.0 release
 
 Goes to [raoulvdberge](https://github.com/raoulvdberge) for early testing, bug reporting & advice

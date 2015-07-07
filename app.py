@@ -28,6 +28,8 @@ add_command_parser = api_key_parser.copy()
 add_command_parser.add_argument('command')
 
 app = Flask(__name__)
+app.config['STANDALONE'] = os.environ.get('STANDALONE', False)
+app.config['STANDALONE_USERNAME'] = os.environ.get('STANDALONE_USERNAME')
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['GITHUB_CLIENT_SECRET'] = os.environ['GITHUB_APP_SECRET']
@@ -256,7 +258,13 @@ def authorized(access_token):
 
 @app.route('/login')
 def login():
-    return github.authorize('user:email')
+    if not app.config['STANDALONE']:
+        return github.authorize('user:email')
+    else:
+        user = get_or_create(User, name=app.config['STANDALONE_USERNAME'])
+        db.session.commit()
+        login_user(user)
+        return redirect(url_for('index'))
 
 
 @app.route('/logout')

@@ -24,6 +24,8 @@ preexec() {
 HistSync uses python2.7
 
 Using foreman is recommended(makes easier config managing)
+To install foreman run: ```gem install foreman``` 
+More info [here](https://github.com/ddollar/foreman)
 
 ### Virtual Environment
 

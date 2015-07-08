@@ -33,6 +33,9 @@ More info [here](https://github.com/ddollar/foreman)
 2. Activate virtual environment ```source histsync-venv/bin/activate```
 3. Install dependencies ```pip install -r requirements-dev.txt```
 
+Note, that if your system uses python3 by default, you should run ```virtualenv -p PYTHON_EXE histsync-venv```
+in step 1, where PYTHON_EXE is a path to python2 executable.
+
 ### Database
 
 HistSync uses postgres in production(and it is recommended to use postgres in development), but using sqlite is also fine.

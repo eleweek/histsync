@@ -24,7 +24,8 @@ preexec() {
 HistSync uses python2.7
 
 Using foreman is recommended(makes easier config managing)
-To install foreman run: ```gem install foreman``` 
+Foreman is a part of heroku toolbelt, but it can also be installed 
+as a standalone ruby gem by running ```gem install foreman``` 
 More info [here](https://github.com/ddollar/foreman)
 
 ### Virtual Environment

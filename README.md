@@ -37,18 +37,6 @@ More info [here](https://github.com/ddollar/foreman)
 Note, that if your system uses python3 by default, you should run ```virtualenv -p PYTHON_EXE histsync-venv```
 in step 1, where PYTHON_EXE is a path to python2 executable.
 
-### Database
-
-HistSync uses postgres in production(and it is recommended to use postgres in development), but using sqlite is also fine.
-
-1. Run ```foreman run python```
-2. In python shell: 
-```
-from app import db
-db.create_all()
-```
-3. TODO: migrations
-
 ### .env 
 
 Create .env file containing these lines
@@ -61,6 +49,18 @@ GITHUB_APP_ID="noid"
 GITHUB_APP_SECRET="nosecret"
 SECRET_KEY="devkey"
 ```
+
+### Database
+
+HistSync uses postgres in production(and it is recommended to use postgres in development), but using sqlite is also fine.
+
+1. Run ```foreman run python```
+2. In python shell: 
+```
+from app import db
+db.create_all()
+```
+3. TODO: migrations
 
 ### Running the app
 

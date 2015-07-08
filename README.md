@@ -23,7 +23,11 @@ preexec() {
 
 HistSync uses python2.7
 
-Using foreman is recommended(makes easier config managing)
+Using foreman is recommended(makes easier config managing).
+
+Foreman is a part of heroku toolbelt, but it can also be installed
+as a standalone ruby gem by running ```gem install foreman```.
+More info [here](https://github.com/ddollar/foreman).
 
 ### Virtual Environment
 
@@ -31,17 +35,8 @@ Using foreman is recommended(makes easier config managing)
 2. Activate virtual environment ```source histsync-venv/bin/activate```
 3. Install dependencies ```pip install -r requirements-dev.txt```
 
-### Database
-
-HistSync uses postgres in production(and it is recommended to use postgres in development), but using sqlite is also fine.
-
-1. Run ```foreman run python```
-2. In python shell: 
-```
-from app import db
-db.create_all()
-```
-3. TODO: migrations
+Note, that if your system uses python3 by default, you should run ```virtualenv -p PYTHON_EXE histsync-venv```
+in step 1, where PYTHON_EXE is a path to python2 executable.
 
 ### .env 
 
@@ -55,6 +50,18 @@ GITHUB_APP_ID="noid"
 GITHUB_APP_SECRET="nosecret"
 SECRET_KEY="devkey"
 ```
+
+### Database
+
+HistSync uses postgres in production(and it is recommended to use postgres in development), but using sqlite is also fine.
+
+1. Run ```foreman run python```
+2. In python shell: 
+```
+from app import db
+db.create_all()
+```
+3. TODO: migrations
 
 ### Running the app
 

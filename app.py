@@ -252,7 +252,7 @@ def authorized(access_token):
     user_json = github.get("user".format(), params={'access_token': access_token})
     user = get_or_create(User, name=user_json["login"], email=user_json.get("email"), github_access_token=access_token)
     db.session.commit()
-    login_user(user)
+    login_user(user, remember=True)
     return redirect(next_url)
 
 
@@ -263,7 +263,7 @@ def login():
     else:
         user = get_or_create(User, name=app.config['STANDALONE_USERNAME'])
         db.session.commit()
-        login_user(user)
+        login_user(user, remember=True)
         return redirect(url_for('index'))
 
 

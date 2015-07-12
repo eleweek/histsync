@@ -28,7 +28,7 @@
     <div class="panel-heading">
       <h5 class="panel-title">
         <span class="public-title public-title-{{command.id}}" {% if not command.is_public %} style="display:none;" {% endif %}>
-			Shared by <a href={{url_for("profile", username=command.user.name)}}>{{command.user.name}}</a> {{ command.time_shared | timesince }}
+        Shared by <a href={{url_for("profile", username=command.user.name)}}>{{command.user.name}}</a> {% if command.time_shared %} {{ command.time_shared | timesince }} {% endif %}
         </span>
 		<div class="pull-right">
         <span class="private-title private-title-{{command.id}}" {% if command.is_public %} style="display:none;" {% endif %}>

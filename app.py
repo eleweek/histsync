@@ -58,7 +58,7 @@ def timesince(dt, default="just now"):
     now = datetime.utcnow()
     diff = now - dt
 
-    return humanize.naturaltime(diff) 
+    return humanize.naturaltime(diff)
 
 
 @github.access_token_getter
@@ -108,7 +108,7 @@ class Command(db.Model):
     text = db.Column(db.String())
 
     is_public = db.Column(db.Boolean(), default=False)
-    time_shared = db.Column(db.DateTime, default=func.now())
+    time_shared = db.Column(db.DateTime)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     description = db.Column(db.Text())
@@ -332,6 +332,7 @@ def _publish_command(id):
     c.is_public = True
     c.text = request.form['command']
     c.description = request.form['description']
+    c.time_shared = datetime.utcnow()
     db.session.commit()
 
     return jsonify(result="OK")

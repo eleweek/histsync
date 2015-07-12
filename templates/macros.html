@@ -30,16 +30,16 @@
         <span class="public-title public-title-{{command.id}}" {% if not command.is_public %} style="display:none;" {% endif %}>
         Shared by <a href={{url_for("profile", username=command.user.name)}}>{{command.user.name}}</a> {% if command.time_shared %} {{ command.time_shared | timesince }} {% endif %}
         </span>
-		<div class="pull-right">
         <span class="private-title private-title-{{command.id}}" {% if command.is_public %} style="display:none;" {% endif %}>
           Private command
         </span>
-        {{ command_controls(command,
-                            command in current_user.starred_commands, command.starred_by | length,
-                            current_user.is_authenticated() and command.user == current_user,
-                            command.is_public,
-                            true) }}
-		</div>
+        <div class="pull-right">
+          {{ command_controls(command,
+                              command in current_user.starred_commands, command.starred_by | length,
+                              current_user.is_authenticated() and command.user == current_user,
+                              command.is_public,
+                              true) }}
+        </div>
       </h5>
     </div>
     <div class="panel-body">

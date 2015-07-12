@@ -46,6 +46,21 @@ def url_for_other_page(page):
 app.jinja_env.globals['url_for_other_page'] = url_for_other_page
 
 
+@app.template_filter()
+def timesince(dt, default="just now"):
+    """
+    Jinja filter that takes a datetime and retuns the
+    'human' version of time since said datetime.
+
+    e.g. 28 minutes ago
+    """
+
+    now = datetime.utcnow()
+    diff = now - dt
+
+    return humanize.naturaltime(diff) 
+
+
 @github.access_token_getter
 def token_getter():
     if current_user.is_authenticated():

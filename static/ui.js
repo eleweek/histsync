@@ -17,14 +17,14 @@ $(document).ready(function() {
                   '<div class="col-md-12"> ' +
                     '<form class="form-horizontal"> ' +
                       '<div class="form-group"> ' +
-                        '<label class="col-md-4 control-label" for="pbf-description' + command_id + '">Description</label> ' +
-                        '<div class="col-md-4"> ' +
+                        '<label class="col-md-3 control-label" for="pbf-description' + command_id + '">Description</label> ' +
+                        '<div class="col-md-8"> ' +
                           '<input id="pbf-description-' + command_id + '" name="pbf-description-' + command_id + '" type="text" placeholder="Description(can be empty)" value="' + quot_escape(command_description) + '" class="form-control input-md"> ' +
                         '</div>' + 
                       '</div>' + 
                       '<div class="form-group"> ' +
-                        '<label class="col-md-4 control-label" for="pbf-command-' + command_id + '">Command</label> ' +
-                        '<div class="col-md-4"> ' +
+                        '<label class="col-md-3 control-label" for="pbf-command-' + command_id + '">Command</label> ' +
+                        '<div class="col-md-8"> ' +
                           '<input id="pbf-command-' + command_id + '" name="pbf-command-' + command_id + '" type="text" placeholder="Command" class="form-control input-md" value="' + quot_escape(command_text) + '"> ' +
                         '</div>' +
                       '</div>' +

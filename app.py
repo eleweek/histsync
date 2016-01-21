@@ -265,7 +265,10 @@ def authorized(access_token):
         return "No access token. If you think this is a bug, please report it: http://github.com/eleweek/histsync", 403
 
     user_json = github.get("user".format(), params={'access_token': access_token})
-    user = get_or_create(User, name=user_json["login"], email=user_json.get("email"), github_access_token=access_token)
+    user = get_or_create(User, name=user_json["login"])
+    user.email = user_json.get("email", user.email)
+    user.github_access_token = access_token
+
     db.session.commit()
     login_user(user, remember=True)
     return redirect(next_url)
